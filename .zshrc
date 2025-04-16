@@ -1,6 +1,8 @@
 source ~/.zshrc_custom
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="/opt/homebrew/bin:$PATH:$HOME/apache-maven-3.6.3/bin:$HOME/go/bin"
+export PATH="/opt/homebrew/bin:$PATH:$MAVEN_HOME/bin:$HOME/go/bin:$GOROOT/bin:$GOPATH/bin"
 export PATH="$PATH:$JAVA_HOME/bin"
 ZSH_THEME="playstation"
 source $ZSH/oh-my-zsh.sh
@@ -23,6 +25,7 @@ alias urldec="python3 $HOME/Tools/urldec.py"
 alias vi='nvim -u ~/.virc --noplugin'
 alias yz='yazi'
 alias vim="nvim"
+alias runpsql=/Library/PostgreSQL/16/scripts/runpsql.sh
 
 alias gitcheckout="git checkout \$(git branch | fzf | awk '{ if (\$1 == \"*\") print \$2 ; else print \$1 }')"
 alias gitco="git checkout \$(git branch | fzf | awk '{ if (\$1 == \"*\") print \$2 ; else print \$1 }')"
