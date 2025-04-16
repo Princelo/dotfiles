@@ -20,7 +20,7 @@ alias unproxy='unset https_proxy;unset http_proxy;unset all_proxy'
 alias ts="python3 $HOME/Tools/ts.py"
 alias urlenc="python3 $HOME/Tools/urlenc.py"
 alias urldec="python3 $HOME/Tools/urldec.py"
-alias vi='nvim -u ~/.txtrc --noplugin'
+alias vi='nvim -u ~/.virc --noplugin'
 alias yz='yazi'
 alias vim="nvim"
 
