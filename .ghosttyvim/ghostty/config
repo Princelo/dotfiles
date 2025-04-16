@@ -1,0 +1,5 @@
+window-title-font-family="FiraCode Nerd Font Mono"
+title=""
+macos-icon=paper
+theme = nord
+cursor-invert-fg-bg = true

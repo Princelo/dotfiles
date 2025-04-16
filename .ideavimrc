@@ -1,0 +1,25 @@
+source ~/.txtrc
+nmap <leader>bd :bd<CR>
+nmap gi :action GotoImplementation<CR>
+nmap gr :action FindUsages<CR>
+nmap gy :action GotoTypeDeclaration<CR>
+nmap gp :action GotoSuperMethod<CR>
+nmap <leader>rn :action RenameElement<CR>
+nmap <leader>o :action FileStructurePopup<CR>
+nmap <leader>h :action TypeHierarchy<CR>
+nmap <leader>tm :action ActivateTerminalToolWindow<CR>
+nmap <leader>s :action FindInPath<CR>
+vmap <leader>s :action FindInPath<CR>
+nmap <leader>f :action GotoFile<CR>
+nmap <leader>t :action GotoSymbol<CR>
+vmap <leader>t :action GotoSymbol<CR>
+vmap <leader>l :action ReformatCode<CR>
+nmap <leader>bf :action RecentFiles<CR>
+nmap <leader>ca :action ShowIntentionActions<CR>
+set ideajoin
+set NERDTree
+nmap <leader>e :NERDTree<CR>
+nmap <A-TAB> :action <Action>(NextTab)
+nmap <S-TAB> :action <Action>(PreviousTab)
+nmap ]b :action <Action>(NextTab)
+nmap [b :action <Action>(PreviousTab)
