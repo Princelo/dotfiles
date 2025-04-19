@@ -1,5 +1,8 @@
 source ~/.zshrc_custom
-export GOROOT=/usr/local/go
+export GOROOT=/usr/lib/go
+if [[ "$(uname)" == "Darwin" ]]; then
+    export GOROOT=/usr/local/go
+fi
 export GOPATH=$HOME/go
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="/opt/homebrew/bin:$PATH:$MAVEN_HOME/bin:$HOME/go/bin:$GOROOT/bin:$GOPATH/bin"
@@ -26,6 +29,7 @@ alias vi='nvim -u ~/.virc --noplugin'
 alias yz='yazi'
 alias vim="nvim"
 alias runpsql=/Library/PostgreSQL/16/scripts/runpsql.sh
+alias unzip="unzip -O gb18030"
 
 alias gitcheckout="git checkout \$(git branch | fzf | awk '{ if (\$1 == \"*\") print \$2 ; else print \$1 }')"
 alias gitco="git checkout \$(git branch | fzf | awk '{ if (\$1 == \"*\") print \$2 ; else print \$1 }')"

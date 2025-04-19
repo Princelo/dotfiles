@@ -32,14 +32,14 @@ local config = {
     --'-Xbootclasspath/a:/Users/princelo/.vim/pack/plugins/lombok.jar',
 
     -- 💀
-    '-jar', vim.env.HOME .. '/.vim/pack/plugins/jdt-language-server-1.45.0-202502271238/plugins/org.eclipse.equinox.launcher_1.6.1000.v20250131-0606.jar',
+    '-jar', vim.env.HOME .. '/.vim/pack/plugins/jdt-language-server-1.46.1-202504011455/plugins/org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar',
          -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
          -- Must point to the                                                     Change this to
          -- eclipse.jdt.ls installation                                           the actual version
 
 
     -- 💀
-    '-configuration', vim.env.HOME .. '/.vim/pack/plugins/jdt-language-server-1.45.0-202502271238/config_mac_arm',
+    '-configuration', vim.env.HOME .. '/.vim/pack/plugins/jdt-language-server-1.46.1-202504011455/config_mac_arm',
                     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
                     -- Must point to the                      Change to one of `linux`, `win` or `mac`
                     -- eclipse.jdt.ls installation            Depending on your system.

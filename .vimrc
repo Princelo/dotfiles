@@ -601,13 +601,6 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
     nmap <leader>tm :sp<cr><C-w>j:resize -6<cr>:set nonumber<cr>:term<cr>A
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Diffview
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <leader>do :DiffviewOpen<CR>
-nmap <leader>dc :DiffviewClose<CR>
-nmap <leader>df :DiffviewFileHistory<CR>
-
 nnoremap <leader>java :read $HOME/Tools/template.java<CR>kdd13jA
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
