@@ -476,40 +476,6 @@ command! -nargs=? Fold :set foldmethod=expr
 "nnoremap <silent><nowait> <leader>o  :call ToggleOutline()<cr>
 nnoremap <silent><nowait> <leader>o  :Outline<cr>
 endif
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => lightline
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function MyFugitiveHead()
-  let head = FugitiveHead()
-  if head != ""
-    let head = "\uf126 " .. head
-  endif
-  return head
-endfunction
-
-let g:lightline = {
-    \ 'colorscheme': 'nord',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-    \ },
-    \ 'tabline': {
-    \   'left': [ ['buffers'] ],
-    \   'right': [ ['close'] ]
-    \ },
-    \ 'component_expand': {
-    \   'buffers': 'lightline#bufferline#buffers'
-    \ },
-    \ 'component_type': {
-    \   'buffers': 'tabsel'
-    \ },
-    \ 'component_function': {
-    \   'gitbranch': 'MyFugitiveHead'
-    \ },
-  \ }
-let g:lightline#bufferline#clickable=1
-let g:lightline.component_raw = {'buffers': 1}
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Buffers
