@@ -515,8 +515,6 @@ let g:lightline.component_raw = {'buffers': 1}
 " => Buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <A-Tab> :bnext<CR>
-nmap <S-Tab> :bprevious<CR>
 nmap ]b :bnext<CR>
 nmap [b :bprevious<CR>
 

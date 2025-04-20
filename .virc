@@ -324,8 +324,6 @@ let g:netrw_chgwin=1 " open files in left window by default
 " => Buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <A-Tab> :bnext<CR>
-nmap <S-Tab> :bprevious<CR>
 nmap ]b :bnext<CR>
 nmap [b :bprevious<CR>
 
