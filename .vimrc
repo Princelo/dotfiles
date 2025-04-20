@@ -1,4 +1,4 @@
-set verbosefile=~/.log/vim/verbose.log
+" set verbosefile=~/.log/vim/verbose.log
 " Sets how many lines of history VIM has to remember
 set history=500
 
