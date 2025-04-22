@@ -19,7 +19,7 @@ nmap <leader>ca :action ShowIntentionActions<CR>
 set ideajoin
 set NERDTree
 nmap <leader>e :NERDTree<CR>
-nmap <A-TAB> :action <Action>(NextTab)
-nmap <S-TAB> :action <Action>(PreviousTab)
 nmap ]b :action <Action>(NextTab)
 nmap [b :action <Action>(PreviousTab)
+nnoremap ]g :action GotoNextError<CR>
+nnoremap [g :action GotoPreviousError<CR>

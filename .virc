@@ -27,6 +27,8 @@ nmap <leader>cnt :%s///gn<CR>
 " (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
+nnoremap q: :
+set jumpoptions=stack
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
