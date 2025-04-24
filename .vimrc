@@ -34,6 +34,7 @@ set jumpoptions=stack
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number
+set relativenumber
 set mouse=a
 set path+=**
 set list listchars=tab:→\ ,nbsp:␣,trail:•,precedes:«,extends:»
