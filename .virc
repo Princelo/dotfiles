@@ -405,7 +405,7 @@ nnoremap <silent> <Leader>bd :Bclose<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Termianl
+" => Terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('nvim-0.4.0') || has('patch-8.2.0750')
     nmap <leader>tm :sp<cr><C-w>j:resize -6<cr>:set nonumber<cr>:term<cr>A

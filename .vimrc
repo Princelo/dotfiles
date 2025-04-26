@@ -389,13 +389,21 @@ nnoremap <silent> <Leader>bd :Bclose<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Termianl
+" => Terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('nvim-0.4.0') || has('patch-8.2.0750')
     nmap <leader>tm :sp<cr><C-w>j:resize -6<cr>:set nonumber<cr>:term<cr>A
 endif
 
 nnoremap <leader>java :read $HOME/Tools/template.java<CR>kdd13jA
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Quick Scope
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Count matches
