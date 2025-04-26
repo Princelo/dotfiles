@@ -13,6 +13,12 @@ local vmap = function(keys, func, desc)
     vim.keymap.set("v", keys, func, { buffer = bufnr, desc = desc })
 end
 
+--###### QUICK SCOPE ########
+require'eyeliner'.setup {
+  highlight_on_key = true,
+  dim = true
+}
+
 --###### LSP #########
 --require'lspconfig'.pyright.setup{}
 require("mason").setup()
