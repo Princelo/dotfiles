@@ -1,3 +1,11 @@
+require("nord").setup({
+  diff = { mode = "fg" },
+  search = { theme = "vscode" },
+  styles = {
+    comments = { italic = false },
+  }
+})
+
 local vimrc = "~/.vimrc"
 vim.cmd.source(vimrc)
 local nmap = function(keys, func, desc)
