@@ -350,6 +350,7 @@ require("nord").setup({
   }
 })
 vim.cmd.colorscheme("nord")
+vim.opt.cursorline = true
 
 --###### LUA LINE #########
 require('lualine').setup {
