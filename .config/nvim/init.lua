@@ -323,7 +323,7 @@ require("nord").setup({
     comments = { italic = false },
   }
 })
---vim.cmd.colorscheme("nord")
+vim.cmd.colorscheme("nord")
 
 --###### LUA LINE #########
 require('lualine').setup {
