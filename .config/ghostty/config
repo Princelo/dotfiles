@@ -3,3 +3,4 @@ cursor-invert-fg-bg = true
 window-title-font-family="FiraCode Nerd Font Propo"
 title=" "
 macos-titlebar-proxy-icon=hidden
+#font-family="FiraCode Nerd Font Propo"
