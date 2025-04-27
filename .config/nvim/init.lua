@@ -19,6 +19,9 @@ require'eyeliner'.setup {
   dim = true
 }
 
+--###### GITBLAME #########
+require('gitsigns').setup()
+
 --###### LSP #########
 --require'lspconfig'.pyright.setup{}
 require("mason").setup()
