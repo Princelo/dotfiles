@@ -29,6 +29,8 @@ require("mason-lspconfig").setup()
 --require'lspconfig'.pylsp.setup{}
 vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]g", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "]ag", vim.diagnostic.setqflist)
+vim.keymap.set("n", "[ag", vim.diagnostic.setqflist)
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = 0 })
 nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
