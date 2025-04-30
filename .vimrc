@@ -303,8 +303,8 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => treesitter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set foldexpr=nvim_treesitter#foldexpr()
-command! -nargs=? Fold :set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr()
+" command! -nargs=? Fold :set foldmethod=expr
 nnoremap <silent><nowait> <leader>o  :Outline<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
