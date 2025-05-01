@@ -13,12 +13,6 @@ local vmap = function(keys, func, desc)
     vim.keymap.set("v", keys, func, { buffer = bufnr, desc = desc })
 end
 
---###### QUICK SCOPE ########
-require'eyeliner'.setup {
-  highlight_on_key = true,
-  dim = true
-}
-
 --###### GITBLAME #########
 require('gitsigns').setup()
 
@@ -392,6 +386,10 @@ require("nord").setup({
 })
 vim.cmd.colorscheme("nord")
 vim.opt.cursorline = true
+require("visual_studio_code").setup({
+    -- `dark` or `light`
+    mode = "light",
+})
 
 --###### LUA LINE #########
 require('lualine').setup {
@@ -706,5 +704,30 @@ require("dap").adapters["pwa-node"] = {
 }
 
 require('dap-go').setup()
+
+--###### QUICK SCOPE ########
+require'eyeliner'.setup {
+  highlight_on_key = true,
+  dim = true,
+}
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = 'visual_studio_code',
+  callback = function()
+    vim.api.nvim_set_hl(0, 'EyelinerDimmed', { fg = '#969696' })
+    vim.api.nvim_set_hl(0, 'EyelinerPrimary', { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
+    vim.api.nvim_set_hl(0, 'EyelinerSecondary', { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
+  end,
+})
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = 'nord',
+  callback = function()
+    vim.api.nvim_set_hl(0, 'EyelinerDimmed', { fg = vim.api.nvim_get_hl_by_name('Comment', true).foreground })
+    vim.api.nvim_set_hl(0, 'EyelinerPrimary', { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
+    vim.api.nvim_set_hl(0, 'EyelinerSecondary', { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
+  end,
+})
+
+vim.api.nvim_set_hl(0, 'EyelinerPrimary', { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
+vim.api.nvim_set_hl(0, 'EyelinerSecondary', { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
 
 vim.env.PATH = '/opt/homebrew/bin:' .. vim.env.HOME .. '/go/bin:/usr/local/go/bin:/usr/local/bin:' .. vim.env.PATH

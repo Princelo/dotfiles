@@ -154,8 +154,8 @@ set ffs=unix,dos,mac
 
 function! SwitchToLight()
     set background=light
-    " colorscheme iceberg
-    colorscheme default
+    " colorscheme default
+    colorscheme visual_studio_code
 endfunction
 
 function! SwitchToDark()
