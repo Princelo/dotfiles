@@ -17,10 +17,8 @@ end
 require('gitsigns').setup()
 
 --###### LSP #########
---require'lspconfig'.pyright.setup{}
 require("mason").setup()
 require("mason-lspconfig").setup()
---require'lspconfig'.pylsp.setup{}
 vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]g", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "]ag", vim.diagnostic.setqflist)
@@ -110,10 +108,6 @@ end
 
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
---require('lspconfig').pyright.setup {
---  capabilities = capabilities
---}
 require('lspconfig').pylsp.setup {
     capabilities = capabilities
 }
@@ -155,12 +149,9 @@ require('nvim-ts-autotag').setup({
     opts = {
         -- Defaults
         enable_close = true,      -- Auto close tags
-        enable_rename = true,     -- Auto rename pairs of tags
+        enable_rename = false,     -- Auto rename pairs of tags
         enable_close_on_slash = false -- Auto close on trailing </
     },
-    -- Also override individual filetype configs, these take priority.
-    -- Empty by default, useful if one of the "opts" global settings
-    -- doesn't work well in a specific filetype
     per_filetype = {
         --["html"] = {
         --  enable_close = false
@@ -214,26 +205,16 @@ require 'nvim-treesitter.configs'.setup {
     -- A list of parser names, or "all" (the listed parsers MUST always be installed)
     ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "java", "javascript", "php", "yaml", "xml", "html", "toml", "scala", "ruby", "python", "perl", "nginx", "mermaid", "make", "helm", "groovy", "gomod", "go", "erlang", "diff", "csv", "css", "cpp", "cmake", "c", "bash" },
 
-    -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
 
-    -- Automatically install missing parsers when entering buffer
-    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
     auto_install = true,
 
     -- List of parsers to ignore installing (or "all")
     -- ignore_install = { "javascript" },
 
-    ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-    -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
     highlight = {
         enable = true,
 
-        -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-        -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-        -- the name of the parser)
-        -- list of language that will be disabled
         -- disable = { "c", "rust" },
         -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
         disable = function(lang, buf)
@@ -244,10 +225,6 @@ require 'nvim-treesitter.configs'.setup {
             end
         end,
 
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
 }
@@ -603,12 +580,6 @@ vim.diagnostic.config({
     },
 })
 
---local signs = { Error = " ", Warn = "", Hint = "", Info = " " }
---for type, icon in pairs(signs) do
-    --local hl = "DiagnosticSign" .. type
-    --vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
---end
-
 dap.adapters.php = {
     type = "executable",
     command = "node",
@@ -628,7 +599,7 @@ require("dap-python").setup(vim.env.HOME .. "/.virtualenvs/debugpy/bin/python")
 
 require("dap-vscode-js").setup({
     -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-    debugger_path = vim.env.HOME .. "/.vim/pack/plugins/vscode-js-debug",                       -- Path to vscode-js-debug installation.
+    debugger_path = vim.env.HOME .. "/.vim/pack/plugins/vscode-js-debug",
     -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
     adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
     -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
@@ -638,20 +609,11 @@ require("dap-vscode-js").setup({
 
 for _, language in ipairs({ "typescript", "javascript" }) do
     require("dap").configurations[language] = {
-        -- attach to a node process that has been started with
-        -- `--inspect` for longrunning tasks or `--inspect-brk` for short tasks
-        -- npm script -> `node --inspect-brk ./node_modules/.bin/vite dev`
         {
-            -- use nvim-dap-vscode-js's pwa-node debug adapter
             type = "pwa-node",
-            -- attach to an already running node process with --inspect flag
-            -- default port: 9222
             request = "attach",
-            -- allows us to pick the process using a picker
             processId = require 'dap.utils'.pick_process,
-            -- name of the debug action you have to select for this config
             name = "Attach debugger to existing `node --inspect` process",
-            -- for compiled languages like TypeScript or Svelte.js
             sourceMaps = true,
             -- resolve source maps in nested locations while ignoring node_modules
             resolveSourceMapLocations = {
@@ -659,7 +621,6 @@ for _, language in ipairs({ "typescript", "javascript" }) do
                 "!**/node_modules/**" },
             -- path to src in vite based projects (and most other projects as well)
             cwd = "${workspaceFolder}/src",
-            -- we don't want to debug code inside node_modules, so skip it!
             skipFiles = { "${workspaceFolder}/node_modules/**/*.js" },
         },
         {
@@ -674,15 +635,10 @@ for _, language in ipairs({ "typescript", "javascript" }) do
             -- skip files from vite's hmr
             skipFiles = { "**/node_modules/**/*", "**/@vite/*", "**/src/client/*", "**/src/*" },
         },
-        -- only if language is javascript, offer this debug action
         language == "javascript" and {
-            -- use nvim-dap-vscode-js's pwa-node debug adapter
             type = "pwa-node",
-            -- launch a new process to attach the debugger to
             request = "launch",
-            -- name of the debug action you have to select for this config
             name = "Launch file in new node process",
-            -- launch current file
             program = "${file}",
             cwd = "${workspaceFolder}",
         } or nil,
@@ -695,7 +651,6 @@ require("dap").adapters["pwa-node"] = {
     port = "${port}",
     executable = {
         command = "node",
-        -- 💀 Make sure to update this path to point to your installation
         args = {
             vim.env.HOME .. "/.vim/pack/plugins/js-debug/src/dapDebugServer.js",
             "${port}",
