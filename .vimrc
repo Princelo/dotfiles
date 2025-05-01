@@ -153,9 +153,9 @@ set fileencodings=utf8,gbk,gb18030,gb2312,big5
 set ffs=unix,dos,mac
 
 function! SwitchToLight()
-    set background=light
     " colorscheme default
     colorscheme visual_studio_code
+    set background=light
 endfunction
 
 function! SwitchToDark()
