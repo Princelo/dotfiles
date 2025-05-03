@@ -36,6 +36,10 @@ alias gitco="git checkout \$(git branch | fzf | awk '{ if (\$1 == \"*\") print \
 alias gitm="git merge \$(git branch | fzf | awk '{ if (\$1 == \"*\") print \$2 ; else print \$1 }')"
 alias gitpush="git push origin \$(git branch | awk '{ if (\$1 == \"*\") print \$2 }')"
 alias gitpull="git pull origin \$(git branch | awk '{ if (\$1 == \"*\") print \$2 }')"
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias copygiturl="git remote -v | grep push | awk '{print \$2}' | pbcopy"
+fi
+alias giturl="git remote -v | grep push | awk '{print \$2}'"
 
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd

@@ -1,0 +1,108 @@
+[submodule ".vim/pack/plugins/start/bufferline.nvim"]
+	path = .vim/pack/plugins/start/bufferline.nvim
+	url = https://github.com/akinsho/bufferline.nvim.git
+[submodule ".vim/pack/plugins/start/cmp-nvim-lsp"]
+	path = .vim/pack/plugins/start/cmp-nvim-lsp
+	url = https://github.com/hrsh7th/cmp-nvim-lsp.git
+[submodule ".vim/pack/plugins/start/eyeliner.nvim"]
+	path = .vim/pack/plugins/start/eyeliner.nvim
+	url = https://github.com/jinh0/eyeliner.nvim.git
+[submodule ".vim/pack/plugins/start/gitsigns.nvim"]
+	path = .vim/pack/plugins/start/gitsigns.nvim
+	url = https://github.com/lewis6991/gitsigns.nvim.git
+[submodule ".vim/pack/plugins/start/indent-blankline.nvim"]
+	path = .vim/pack/plugins/start/indent-blankline.nvim
+	url = https://github.com/lukas-reineke/indent-blankline.nvim.git
+[submodule ".vim/pack/plugins/start/mason-lspconfig.nvim"]
+	path = .vim/pack/plugins/start/mason-lspconfig.nvim
+	url = https://github.com/williamboman/mason-lspconfig.nvim.git
+[submodule ".vim/pack/plugins/start/mason.nvim"]
+	path = .vim/pack/plugins/start/mason.nvim
+	url = https://github.com/williamboman/mason.nvim.git
+[submodule ".vim/pack/plugins/start/neoscroll.nvim"]
+	path = .vim/pack/plugins/start/neoscroll.nvim
+	url = https://github.com/karb94/neoscroll.nvim.git
+[submodule ".vim/pack/plugins/start/nord.nvim"]
+	path = .vim/pack/plugins/start/nord.nvim
+	url = https://github.com/gbprod/nord.nvim.git
+[submodule ".vim/pack/plugins/start/nvim-autopairs"]
+	path = .vim/pack/plugins/start/nvim-autopairs
+	url = https://github.com/windwp/nvim-autopairs.git
+[submodule ".vim/pack/plugins/start/nvim-cmp"]
+	path = .vim/pack/plugins/start/nvim-cmp
+	url = https://github.com/hrsh7th/nvim-cmp.git
+[submodule ".vim/pack/plugins/start/nvim-dap"]
+	path = .vim/pack/plugins/start/nvim-dap
+	url = https://github.com/mfussenegger/nvim-dap
+[submodule ".vim/pack/plugins/start/nvim-dap-go"]
+	path = .vim/pack/plugins/start/nvim-dap-go
+	url = https://github.com/leoluz/nvim-dap-go.git
+[submodule ".vim/pack/plugins/start/nvim-dap-python"]
+	path = .vim/pack/plugins/start/nvim-dap-python
+	url = https://github.com/mfussenegger/nvim-dap-python.git
+[submodule ".vim/pack/plugins/start/nvim-dap-ui"]
+	path = .vim/pack/plugins/start/nvim-dap-ui
+	url = https://github.com/rcarriga/nvim-dap-ui
+[submodule ".vim/pack/plugins/start/nvim-dap-virtual-text"]
+	path = .vim/pack/plugins/start/nvim-dap-virtual-text
+	url = https://github.com/theHamsta/nvim-dap-virtual-text
+[submodule ".vim/pack/plugins/start/nvim-dap-vscode-js"]
+	path = .vim/pack/plugins/start/nvim-dap-vscode-js
+	url = https://github.com/mxsdev/nvim-dap-vscode-js.git
+[submodule ".vim/pack/plugins/start/nvim-jdtls"]
+	path = .vim/pack/plugins/start/nvim-jdtls
+	url = https://github.com/mfussenegger/nvim-jdtls.git
+[submodule ".vim/pack/plugins/start/nvim-lspconfig"]
+	path = .vim/pack/plugins/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig
+[submodule ".vim/pack/plugins/start/nvim-nio"]
+	path = .vim/pack/plugins/start/nvim-nio
+	url = https://github.com/nvim-neotest/nvim-nio.git
+[submodule ".vim/pack/plugins/start/nvim-tree.lua"]
+	path = .vim/pack/plugins/start/nvim-tree.lua
+	url = https://github.com/nvim-tree/nvim-tree.lua.git
+[submodule ".vim/pack/plugins/start/nvim-treesitter"]
+	path = .vim/pack/plugins/start/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter.git
+[submodule ".vim/pack/plugins/start/nvim-ts-autotag"]
+	path = .vim/pack/plugins/start/nvim-ts-autotag
+	url = https://github.com/windwp/nvim-ts-autotag.git
+[submodule ".vim/pack/plugins/start/nvim-ufo"]
+	path = .vim/pack/plugins/start/nvim-ufo
+	url = https://github.com/kevinhwang91/nvim-ufo.git
+[submodule ".vim/pack/plugins/start/nvim-web-devicons"]
+	path = .vim/pack/plugins/start/nvim-web-devicons
+	url = https://github.com/nvim-tree/nvim-web-devicons.git
+[submodule ".vim/pack/plugins/start/outline.nvim"]
+	path = .vim/pack/plugins/start/outline.nvim
+	url = https://github.com/hedyhli/outline.nvim.git
+[submodule ".vim/pack/plugins/start/plenary.nvim"]
+	path = .vim/pack/plugins/start/plenary.nvim
+	url = https://github.com/nvim-lua/plenary.nvim
+[submodule ".vim/pack/plugins/start/promise-async"]
+	path = .vim/pack/plugins/start/promise-async
+	url = https://github.com/kevinhwang91/promise-async.git
+[submodule ".vim/pack/plugins/start/tagbar"]
+	path = .vim/pack/plugins/start/tagbar
+	url = https://github.com/majutsushi/tagbar
+[submodule ".vim/pack/plugins/start/telescope-dap.nvim"]
+	path = .vim/pack/plugins/start/telescope-dap.nvim
+	url = https://github.com/nvim-telescope/telescope-dap.nvim.git
+[submodule ".vim/pack/plugins/start/telescope-fzf-native.nvim"]
+	path = .vim/pack/plugins/start/telescope-fzf-native.nvim
+	url = https://github.com/nvim-telescope/telescope-fzf-native.nvim.git
+[submodule ".vim/pack/plugins/start/telescope-live-grep-args.nvim"]
+	path = .vim/pack/plugins/start/telescope-live-grep-args.nvim
+	url = https://github.com/nvim-telescope/telescope-live-grep-args.nvim.git
+[submodule ".vim/pack/plugins/start/telescope.nvim"]
+	path = .vim/pack/plugins/start/telescope.nvim
+	url = https://github.com/nvim-telescope/telescope.nvim.git
+[submodule ".vim/pack/plugins/start/vim-tmux-navigator"]
+	path = .vim/pack/plugins/start/vim-tmux-navigator
+	url = https://github.com/christoomey/vim-tmux-navigator.git
+[submodule ".vim/pack/plugins/start/visual_studio_code"]
+	path = .vim/pack/plugins/start/visual_studio_code
+	url = https://github.com/askfiy/visual_studio_code.git
+[submodule ".vim/pack/plugins/start/yazi.nvim"]
+	path = .vim/pack/plugins/start/yazi.nvim
+	url = https://github.com/mikavilpas/yazi.nvim.git
