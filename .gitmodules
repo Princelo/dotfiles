@@ -106,3 +106,6 @@
 [submodule ".vim/pack/plugins/start/yazi.nvim"]
 	path = .vim/pack/plugins/start/yazi.nvim
 	url = https://github.com/mikavilpas/yazi.nvim.git
+[submodule ".vim/pack/plugins/start/lualine.nvim"]
+	path = .vim/pack/plugins/start/lualine.nvim
+	url = https://github.com/nvim-lualine/lualine.nvim.git
