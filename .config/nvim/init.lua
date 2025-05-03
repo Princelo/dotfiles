@@ -55,8 +55,8 @@ vim.keymap.set('n', '<leader>dn', function()
         vim.diagnostic.hide()
     end
 end)
--- vim.diagnostic.config({ virtual_text = true })
--- vim.diagnostic.open_float
+vim.diagnostic.config({ virtual_text = true })
+nmap("<leader>K", vim.diagnostic.open_float, "Diagnostic Open Float")
 
 --###### CMP #########
 local cmp = require 'cmp'

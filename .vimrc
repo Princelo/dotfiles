@@ -18,7 +18,7 @@ nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>p "+p
 vnoremap <leader>p "+p
-vmap <leader>r "hy:%s/<C-r>h//g<left><left>
+vmap <leader>r "hy:%s/\C<C-r>h//g<left><left>
 cnoremap <C-A>		<Home>
 cnoremap <C-E>		<End>
 nmap <leader>cnt :%s///gn<CR>
