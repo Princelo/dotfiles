@@ -5,7 +5,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
 fi
 export GOPATH=$HOME/go
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH:$MAVEN_HOME/bin:$HOME/go/bin:$GOROOT/bin:$GOPATH/bin"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH:$M2_HOME/bin:$HOME/go/bin:$GOROOT/bin:$GOPATH/bin"
 export PATH="$PATH:$JAVA_HOME/bin"
 ZSH_THEME="playstation"
 source $ZSH/oh-my-zsh.sh
