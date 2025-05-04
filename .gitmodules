@@ -109,9 +109,6 @@
 [submodule ".vim/pack/plugins/start/lualine.nvim"]
 	path = .vim/pack/plugins/start/lualine.nvim
 	url = https://github.com/nvim-lualine/lualine.nvim.git
-[submodule ".vim/pack/plugins/vscode-js-debug"]
-	path = .vim/pack/plugins/vscode-js-debug
-	url = https://github.com/microsoft/vscode-js-debug.git
 [submodule ".vim/pack/plugins/vscode-php-debug"]
 	path = .vim/pack/plugins/vscode-php-debug
 	url = https://github.com/xdebug/vscode-php-debug.git
