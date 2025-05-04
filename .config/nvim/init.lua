@@ -380,7 +380,7 @@ require('lualine').setup {
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
         disabled_filetypes = {
-            statusline = { 'NvimTree', 'Outline' },
+            statusline = { 'NvimTree', 'Outline', 'DiffviewFiles' },
             winbar = {},
             "dapui_watches", "dapui_breakpoints",
             "dapui_scopes", "dapui_console",
