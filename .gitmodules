@@ -118,3 +118,6 @@
 [submodule ".vim/pack/plugins/java-debug"]
 	path = .vim/pack/plugins/java-debug
 	url = https://github.com/microsoft/java-debug.git
+[submodule ".vim/pack/plugins/start/diffview.nvim"]
+	path = .vim/pack/plugins/start/diffview.nvim
+	url = https://github.com/sindrets/diffview.nvim.git
