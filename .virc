@@ -155,17 +155,22 @@ set fileencodings=utf8,gbk,gb18030,gb2312,big5
 set ffs=unix,dos,mac
 
 function! SwitchToLight()
-    set background=light
-    " colorscheme iceberg
-    colorscheme default
+    lua require("visual_studio_code").setup({ mode = "light" })
+    colorscheme visual_studio_code
+endfunction
+
+function! SwitchToVSCode()
+    lua require("visual_studio_code").setup({ mode = "dark" })
+    colorscheme visual_studio_code
 endfunction
 
 function! SwitchToDark()
-    set background=dark
+    lua require("nord").setup({diff={mode="fg"},search={theme="vscode"},styles={comments={italic=false}}})
     colorscheme nord
 endfunction
 
 command! -nargs=0 Light :call SwitchToLight()
+command! -nargs=0 VSCode :call SwitchToVSCode()
 command! -nargs=0 Dark :call SwitchToDark()
 
 
