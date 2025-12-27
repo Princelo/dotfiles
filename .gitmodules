@@ -118,3 +118,6 @@
 [submodule ".vim/pack/plugins/start/diffview.nvim"]
 	path = .vim/pack/plugins/start/diffview.nvim
 	url = https://github.com/sindrets/diffview.nvim.git
+[submodule ".vim/pack/plugins/start/nvim-hlslens"]
+	path = .vim/pack/plugins/start/nvim-hlslens
+	url = https://github.com/kevinhwang91/nvim-hlslens.git

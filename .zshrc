@@ -2,10 +2,12 @@ source ~/.zshrc_custom
 export GOROOT=/usr/lib/go
 if [[ "$(uname)" == "Darwin" ]]; then
     export GOROOT=/usr/local/go
+    export PATH="/opt/homebrew/opt/trash/bin:$PATH"
+    alias posting="TERM_PROGRAM=Apple_Terminal posting"
 fi
 export GOPATH=$HOME/go
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH:$M2_HOME/bin:$HOME/go/bin:$GOROOT/bin:$GOPATH/bin"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH:$M2_HOME/bin:$HOME/go/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin"
 export PATH="$PATH:$JAVA_HOME/bin"
 ZSH_THEME="playstation"
 source $ZSH/oh-my-zsh.sh
@@ -40,6 +42,15 @@ if [[ "$(uname)" == "Darwin" ]]; then
     alias copygiturl="git remote -v | grep push | awk '{print \$2}' | pbcopy"
 fi
 alias giturl="git remote -v | grep push | awk '{print \$2}'"
+alias 1st="awk '{print \$1}'"
+alias 2nd="awk '{print \$2}'"
+alias 3rd="awk '{print \$3}'"
+alias 4th="awk '{print \$4}'"
+alias 5th="awk '{print \$5}'"
+alias 6th="awk '{print \$6}'"
+alias 7th="awk '{print \$7}'"
+alias 8th="awk '{print \$8}'"
+alias 9th="awk '{print \$9}'"
 
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -57,9 +68,20 @@ alias vimc="vimc(){java -jar ~/cfr-0.151.jar \$1| vim -c 'set ft=java'; unset -f
 alias vic="vic(){java -jar ~/cfr-0.151.jar \$1| vi -c 'set ft=java'; unset -f vic;}; vic"
 alias fj="touch mvnw"
 alias vj="vj(){export JAVA=1; vim \$@; export JAVA=0;}; vj"
+alias mvnnew="mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false"
 
 eval "$(zoxide init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+mj() {
+    jsonpp "$1" | micro
+}
+hj() {
+    jsonpp "$1" | hx
+}
+j() {
+    jsonpp "$1" | vim -c 'set ft=json' -c 'Light' -c 'set nornu'
+}

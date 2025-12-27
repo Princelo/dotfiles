@@ -1,5 +1,6 @@
 window-title-font-family="FiraCode Nerd Font Propo"
 title=""
-macos-icon=paper
 theme = nord
 cursor-invert-fg-bg = true
+font-family="FiraCode Nerd Font Propo"
+adjust-cell-height=30%

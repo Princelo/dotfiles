@@ -410,61 +410,6 @@ nmap <leader>df :DiffviewFileHistory<CR>
 
 nnoremap <leader>java :read $HOME/Tools/template.java<CR>kdd13jA
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Count matches
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-const s:MAXCOUNT = 100000
-const s:TIMEOUT = 500
-
-augroup index_after_slash | au!
-    au CmdlineLeave /,\? call s:index_after_slash()
-augroup END
-
-fu s:index_after_slash() abort
-    if getcmdline() is# '' || state() =~# 'm'
-        return
-    endif
-    call timer_start(0, {-> mode() =~# '[nv]' ? s:search_index() : 0})
-endfu
-
-fu s:search_index() abort
-    try
-        let result = searchcount(#{maxcount: s:MAXCOUNT, timeout: s:TIMEOUT})
-        let [current, total, incomplete] = [result.current, result.total, result.incomplete]
-    catch
-        echohl ErrorMsg | echom v:exception | echohl NONE
-        return ''
-    endtry
-    let msg = ''
-    let pat = substitute(@/, '\%x00', '^@', 'g')
-    if incomplete == 0
-        let msg = printf('[%*d/%d] %s', len(total), current, total, pat)
-    elseif incomplete == 1 " recomputing took too much time
-        let msg = printf('[?/??] '..%s', pat)
-    elseif incomplete == 2 " too many matches
-        if result.total == (result.maxcount+1) && result.current <= result.maxcount
-            let msg = printf('[%*d/>%d] %s', len(total-1), current, total-1, pat)
-        else
-            let msg = printf('[>%*d/>%d] %s', len(total-1), current-1, total-1, pat)
-        endif
-    endif
-    if strchars(msg, 1) > (v:echospace + (&cmdheight-1)*&columns)
-        let n = v:echospace - 3
-        let [n1, n2] = n%2 ? [n/2, n/2] : [n/2-1, n/2]
-        let msg = matchlist(msg, '\(.\{' .. n1 .. '}\).*\(.\{' .. n2 .. '}\)')[1:2]->join('...')
-    endif
-    echo msg
-    return ''
-endfu
-
-nmap n <plug>(n)<plug>(search_index)
-nmap N <plug>(N)<plug>(search_index)
-nno <plug>(n) n
-nno <plug>(N) N
-nno <expr> <plug>(search_index) <sid>search_index()
-endif
-
 if $JAVA == 1
     let g:java = 1
 endif
