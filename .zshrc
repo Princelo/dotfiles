@@ -32,6 +32,10 @@ alias yz='yazi'
 alias vim="nvim"
 alias runpsql=/Library/PostgreSQL/16/scripts/runpsql.sh
 alias unzip="unzip -O gb18030"
+alias latin="nvim \"+e ++enc=cp1252\""
+alias gbk="nvim \"+e ++enc=cp936\""
+alias big5="nvim \"+e ++enc=big5\""
+alias utf8="nvim \"+e ++enc=utf8\""
 
 alias gitcheckout="git checkout \$(git branch | fzf | awk '{ if (\$1 == \"*\") print \$2 ; else print \$1 }')"
 alias gitco="git checkout \$(git branch | fzf | awk '{ if (\$1 == \"*\") print \$2 ; else print \$1 }')"
@@ -76,12 +80,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-mj() {
-    jsonpp "$1" | micro
+mjson() {
+    jq < "$1" | micro
 }
-hj() {
-    jsonpp "$1" | hx
+hjson() {
+    jq < "$1" | hx
 }
-j() {
-    jsonpp "$1" | vim -c 'set ft=json' -c 'Light' -c 'set nornu'
+json() {
+    jq < "$1" | nvim -c 'set ft=json' -c 'Light' -c 'set nornu'
 }

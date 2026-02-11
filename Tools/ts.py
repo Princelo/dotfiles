@@ -5,7 +5,7 @@ import datetime
 
 if len(sys.argv) == 1:
     ut = time.time()
-    print(int(ut))
+    # print(int(ut))
     ut *= 1000
     print(int(ut))
     exit(0)
@@ -20,7 +20,7 @@ if (len(sys.argv) == 2):
 else:
     year, month, date = sys.argv[1].split("-")
     hour, minute, second = sys.argv[2].split(":")
-    print(int(datetime.datetime(int(year), int(month), int(date), int(hour),
-                                int(minute), int(second)).timestamp()))
+    # print(int(datetime.datetime(int(year), int(month), int(date), int(hour),
+    #                             int(minute), int(second)).timestamp()))
     print(int(datetime.datetime(int(year), int(month), int(date), int(hour),
                                 int(minute), int(second)).timestamp()) * 1000)

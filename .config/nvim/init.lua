@@ -17,12 +17,23 @@ end
 require('gitsigns').setup()
 
 --###### LSP #########
-require("mason").setup()
-require("mason-lspconfig").setup()
-vim.keymap.set("n", "[g", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]g", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set("n", "]ag", vim.diagnostic.setqflist)
-vim.keymap.set("n", "[ag", vim.diagnostic.setqflist)
+vim.api.nvim_create_autocmd("VimEnter", {
+    once = true,
+    callback = function()
+        vim.defer_fn(function()
+            vim.cmd.packadd("mason.nvim")
+            vim.cmd.packadd("nvim-lspconfig")
+            vim.cmd.packadd("mason-lspconfig.nvim")
+            require("mason").setup()
+            require("mason-lspconfig").setup()
+        end, 100)
+    end,
+})
+
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "]ad", vim.diagnostic.setqflist)
+vim.keymap.set("n", "[ad", vim.diagnostic.setqflist)
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = 0 })
 nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
@@ -32,11 +43,11 @@ nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 nmap("<leader>Ic", vim.lsp.buf.incoming_calls, "[I]ncoming [C]alls")
 nmap("<leader>Oc", vim.lsp.buf.outgoing_calls, "[O]utgoing [C]alls")
-nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+--nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 nmap("<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
 nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+--nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+--nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 -- Lesser used LSP functionality
 nmap("<leader>wA", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
 nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
@@ -59,7 +70,7 @@ vim.diagnostic.config({ virtual_text = true })
 nmap("<leader>K", vim.diagnostic.open_float, "Diagnostic Open Float")
 
 --###### CMP #########
-local cmp = require 'cmp'
+local cmp = require("cmp")
 cmp.setup({
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -88,68 +99,30 @@ cmp.setup({
 
 -- Set up lspconfig.
 local border = {
-      {"╭", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╮", "FloatBorder"},
-      {"│", "FloatBorder"},
-      {"╯", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╰", "FloatBorder"},
-      {"│", "FloatBorder"},
+    { "╭", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╮", "FloatBorder" },
+    { "│", "FloatBorder" },
+    { "╯", "FloatBorder" },
+    { "─", "FloatBorder" },
+    { "╰", "FloatBorder" },
+    { "│", "FloatBorder" },
 }
 
 -- To instead override globally
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-  opts = opts or {}
-  opts.border = opts.border or border
-  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or border
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-require('lspconfig').pylsp.setup {
-    capabilities = capabilities
-}
-require('lspconfig').ts_ls.setup {
-    capabilities = capabilities
-}
-require('lspconfig').clangd.setup {
-    capabilities = capabilities
-}
-require('lspconfig').gopls.setup {
-    capabilities = capabilities
-}
-require('lspconfig').html.setup {
-    capabilities = capabilities
-}
-require('lspconfig').jsonls.setup {
-    capabilities = capabilities
-}
-require('lspconfig').cssls.setup {
-    capabilities = capabilities
-}
-require('lspconfig').lua_ls.setup {
-    capabilities = capabilities
-}
-require('lspconfig').lemminx.setup {
-    capabilities = capabilities
-}
-require('lspconfig').yamlls.setup {
-    capabilities = capabilities
-}
-require('lspconfig')['kotlin_language_server'].setup {
-    capabilities = capabilities
-}
-require('lspconfig').intelephense.setup {
-    capabilities = capabilities
-}
 
 require('nvim-ts-autotag').setup({
     opts = {
         -- Defaults
-        enable_close = true,      -- Auto close tags
-        enable_rename = false,     -- Auto rename pairs of tags
+        enable_close = true,          -- Auto close tags
+        enable_rename = false,        -- Auto rename pairs of tags
         enable_close_on_slash = false -- Auto close on trailing </
     },
     per_filetype = {
@@ -178,7 +151,7 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
         else
             chunkText = truncate(chunkText, targetWidth - curWidth)
             local hlGroup = chunk[2]
-            table.insert(newVirtText, {chunkText, hlGroup})
+            table.insert(newVirtText, { chunkText, hlGroup })
             chunkWidth = vim.fn.strdisplaywidth(chunkText)
             -- str width returned from truncate() may less than 2nd argument, need padding
             if curWidth + chunkWidth < targetWidth then
@@ -188,17 +161,32 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
         end
         curWidth = curWidth + chunkWidth
     end
-    table.insert(newVirtText, {suffix, 'MoreMsg'})
+    table.insert(newVirtText, { suffix, 'MoreMsg' })
     return newVirtText
 end
 
-require('ufo').setup({
-    fold_virt_text_handler = handler
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+    pattern = { "*" }, -- { "lua", "python", "go", "html", "js" }
+    callback = function()
+        vim.cmd.packadd("nvim-ufo")
+        require("ufo").setup({
+            fold_virt_text_handler = handler
+        })
+    end,
+    once = true,
 })
 
-
 --###### OUTLINE #########
-require("outline").setup({})
+local outline = function()
+    if package.loaded["outline"] then
+        vim.cmd('Outline')
+        return
+    end
+    vim.cmd.packadd("outline.nvim")
+    require("outline").setup({})
+    vim.cmd('Outline')
+end
+nmap("<leader>o", outline)
 
 --###### TREESITTER #########
 require 'nvim-treesitter.configs'.setup {
@@ -235,36 +223,103 @@ require("ibl").setup()
 
 
 --###### TELESCOPE #########
-require('telescope').setup {
-    defaults = {
-        preview = {
-            filesize_limit = 0.5555,
+local telescope = function()
+    if not package.loaded["telescope"] then
+        vim.cmd.packadd("telescope.nvim")
+        if package.loaded["dap"] then
+            vim.cmd.packadd("telescope-dap.nvim")
+        end
+        vim.cmd.packadd("telescope-fzf-native.nvim")
+        --vim.cmd.packadd("telescope-live-grep-args.nvim")
+        require('telescope').setup {
+            defaults = {
+                preview = {
+                    filesize_limit = 0.5555,
+                }
+            },
+            extensions = {
+                fzf = {
+                    fuzzy = true,                   -- false will only do exact matching
+                    override_generic_sorter = true, -- override the generic sorter
+                    override_file_sorter = true,    -- override the file sorter
+                    case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+                    -- the default case_mode is "smart_case"
+                }
+            }
         }
-    },
-    extensions = {
-        fzf = {
-            fuzzy = true,             -- false will only do exact matching
-            override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true, -- override the file sorter
-            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-            -- the default case_mode is "smart_case"
-        }
-    }
-}
--- To get fzf loaded and working with telescope, you need to call
--- load_extension, somewhere after setup function:
-require('telescope').load_extension('fzf')
-require('telescope').load_extension('dap')
+    end
+    -- To get fzf loaded and working with telescope, you need to call
+    -- load_extension, somewhere after setup function:
+    require('telescope').load_extension('fzf')
+    -- require('telescope').load_extension('dap')
+    if package.loaded["dap"] then
+        require('telescope').load_extension('dap')
+    end
+end
 
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-vim.keymap.set('v', '<leader>f', '"sy:Telescope find_files default_text=<C-r>s<CR>', {})
-vim.keymap.set('n', '<leader>s', require("telescope").extensions.live_grep_args.live_grep_args, { noremap = true })
-vim.keymap.set('v', '<leader>s', '"sy:Telescope live_grep_args default_text="<C-r>s<CR>"', {})
-vim.keymap.set('n', '<leader>bf', builtin.buffers, {})
-vim.keymap.set('n', '<leader>t', builtin.tags, {})
-vim.keymap.set('v', '<leader>t', '"ty:Telescope tags default_text=<C-r>t<CR>', {})
-vim.keymap.set('n', '<leader>r', builtin.registers, {})
+vim.keymap.set('n', '<leader>f', function()
+    telescope()
+    local builtin = require('telescope.builtin')
+    builtin.find_files()
+end, { noremap = true, silent = true })
+--vim.keymap.set('v', '<leader>f', '"sy:Telescope find_files default_text=<C-r>s<CR>', {})
+vim.keymap.set('v', '<leader>f', function()
+  telescope()
+  vim.cmd('normal! "sy')
+  local selected_text = vim.fn.getreg('s')
+  require('telescope.builtin').find_files({
+    default_text = selected_text
+  })
+end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>s', function()
+    telescope()
+    if not package.loaded["telescope-live-grep-args"] then
+        vim.cmd.packadd("telescope-live-grep-args.nvim")
+    end
+    require("telescope").extensions.live_grep_args.live_grep_args()
+end, { noremap = true, silent = true })
+--vim.keymap.set('v', '<leader>s', '"sy:Telescope live_grep_args default_text="<C-r>s<CR>"', {})
+vim.keymap.set('v', '<leader>s', function()
+    telescope()
+    if not package.loaded["telescope-live-grep-args"] then
+        vim.cmd.packadd("telescope-live-grep-args.nvim")
+    end
+
+    vim.cmd('normal! "sy')
+    local selected_text = vim.fn.getreg('s')
+    require('telescope').extensions.live_grep_args.live_grep_args({
+        default_text = selected_text
+    })
+end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>bl', function()
+    telescope()
+    local builtin = require('telescope.builtin')
+    builtin.buffers()
+end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>t', function ()
+    telescope()
+    local builtin = require('telescope.builtin')
+    builtin.tags()
+end, { noremap = true, silent = true })
+--vim.keymap.set('v', '<leader>t', '"ty:Telescope tags default_text=<C-r>t<CR>', {})
+vim.keymap.set('v', '<leader>t', function ()
+    telescope()
+    vim.cmd('normal! "ty')
+    local selected_text = vim.fn.getreg('t')
+    require('telescope.builtin').tags({
+        default_text = selected_text
+    })
+end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>r', function()
+    telescope()
+    local builtin = require('telescope.builtin')
+    builtin.registers()
+end, { noremap = true, silent = true })
+vim.keymap.set('n', 'gr', function ()
+    telescope()
+    local builtin = require('telescope.builtin')
+    builtin.lsp_references()
+end, { noremap = true, silent = true })
 
 
 --###### NVIM TREE #########
@@ -276,97 +331,106 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 
 -- OR setup with some options
-require("nvim-tree").setup({
-    filters = {
-        dotfiles = false,
-        exclude = { vim.fn.stdpath "config" .. "/lua/custom" },
-    },
-    disable_netrw = true,
-    hijack_netrw = true,
-    hijack_cursor = true,
-    hijack_unnamed_buffer_when_opening = false,
-    sync_root_with_cwd = true,
-    update_focused_file = {
-        enable = true,
-        update_root = false,
-    },
-    view = {
-        adaptive_size = true,
-        side = "left",
-        width = 30,
-        preserve_window_proportions = true,
-    },
-    git = {
-        enable = false,
-        ignore = true,
-    },
-    filesystem_watchers = {
-        enable = true,
-    },
-    actions = {
-        open_file = {
-            resize_window = true,
-        },
-    },
-    renderer = {
-        root_folder_label = false,
-        highlight_git = false,
-        highlight_opened_files = "none",
-
-        indent_markers = {
-            enable = false,
-        },
-
-        icons = {
-            show = {
-                file = true,
-                folder = true,
-                folder_arrow = true,
-                git = false,
+local nvimtree = function()
+    if not package.loaded["nvim-tree"] then
+        vim.cmd.packadd('nvim-tree.lua')
+        require("nvim-tree").setup({
+            filters = {
+                dotfiles = false,
+                exclude = { vim.fn.stdpath "config" .. "/lua/custom" },
             },
-
-            glyphs = {
-                default = "󰈚",
-                symlink = "",
-                folder = {
-                    default = "",
-                    empty = "",
-                    empty_open = "",
-                    open = "",
-                    symlink = "",
-                    symlink_open = "",
-                    arrow_open = "",
-                    arrow_closed = "",
-                },
-                git = {
-                    unstaged = "✗",
-                    staged = "✓",
-                    unmerged = "",
-                    renamed = "➜",
-                    untracked = "★",
-                    deleted = "",
-                    ignored = "◌",
+            disable_netrw = true,
+            hijack_netrw = true,
+            hijack_cursor = true,
+            hijack_unnamed_buffer_when_opening = false,
+            sync_root_with_cwd = true,
+            update_focused_file = {
+                enable = true,
+                update_root = false,
+            },
+            view = {
+                adaptive_size = true,
+                side = "left",
+                width = 30,
+                preserve_window_proportions = true,
+            },
+            git = {
+                enable = false,
+                ignore = true,
+            },
+            filesystem_watchers = {
+                enable = true,
+            },
+            actions = {
+                open_file = {
+                    resize_window = true,
                 },
             },
-        },
-    },
-})
-vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', {})
+            renderer = {
+                root_folder_label = false,
+                highlight_git = false,
+                highlight_opened_files = "none",
+
+                indent_markers = {
+                    enable = false,
+                },
+
+                icons = {
+                    show = {
+                        file = true,
+                        folder = true,
+                        folder_arrow = true,
+                        git = false,
+                    },
+
+                    glyphs = {
+                        default = "󰈚",
+                        symlink = "",
+                        folder = {
+                            default = "",
+                            empty = "",
+                            empty_open = "",
+                            open = "",
+                            symlink = "",
+                            symlink_open = "",
+                            arrow_open = "",
+                            arrow_closed = "",
+                        },
+                        git = {
+                            unstaged = "✗",
+                            staged = "✓",
+                            unmerged = "",
+                            renamed = "➜",
+                            untracked = "★",
+                            deleted = "",
+                            ignored = "◌",
+                        },
+                    },
+                },
+            },
+        })
+    end
+end
+
+vim.keymap.set('n', '<leader>e', function()
+    nvimtree()
+    require('nvim-tree.api').tree.toggle()
+end, { noremap = true, silent = true })
 
 --###### NORD THEME #########
 require("nord").setup({
-  diff = { mode = "fg" },
-  search = { theme = "vscode" },
-  styles = {
-    comments = { italic = false },
-  }
+    diff = { mode = "fg" },
+    search = { theme = "vscode" },
+    styles = {
+        comments = { italic = false },
+    }
 })
 vim.cmd.colorscheme("nord")
 vim.opt.cursorline = true
-require("visual_studio_code").setup({
-    -- `dark` or `light`
-    mode = "light",
-})
+--require("visual_studio_code").setup({
+-- `dark` or `light`
+--    mode = "light",
+--})
 
 --###### LUA LINE #########
 require('lualine').setup {
@@ -468,7 +532,7 @@ require("bufferline").setup({
         end,
         max_name_length = 18,
         max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-        truncate_names = true, -- whether or not tab names should be truncated
+        truncate_names = true,  -- whether or not tab names should be truncated
         tab_size = 18,
         diagnostics = "nvim_lsp",
         diagnostics_update_in_insert = false,
@@ -532,31 +596,13 @@ require('neoscroll').setup({ mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>' } }
 
 --###### YAZI #########
 vim.keymap.set("n", "<leader>yz", function()
+    if not package.loaded["yazi"] then
+        vim.cmd.packadd("yazi.nvim")
+    end
     require("yazi").yazi()
 end)
 
 --###### DAP #########
-require("nvim-dap-virtual-text").setup()
-require("dapui").setup()
-local dap, dapui = require("dap"), require("dapui")
-dap.listeners.before.attach.dapui_config = function()
-    dapui.open()
-end
-dap.listeners.before.launch.dapui_config = function()
-    dapui.open()
-end
-dap.listeners.before.event_terminated.dapui_config = function()
-    dapui.close()
-end
-dap.listeners.before.event_exited.dapui_config = function()
-    dapui.close()
-end
-vim.fn.sign_define("DapStopped", { text = "→", texthl = "DiagnosticWarn" })
-vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticInfo" })
-vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DiagnosticError" })
-vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "DiagnosticInfo" })
-vim.fn.sign_define("DapLogPoint", { text = ".>", texthl = "DiagnosticInfo" })
-
 vim.diagnostic.config({
     signs = {
         text = {
@@ -579,116 +625,165 @@ vim.diagnostic.config({
         },
     },
 })
+local dap = function()
+    if package.loaded["dap"] then
+        require("dap").toggle_breakpoint()
+        return
+    end
+    vim.cmd.packadd("nvim-dap")
+    vim.cmd.packadd("nvim-dap-ui")
+    vim.cmd.packadd("nvim-dap-virtual-text")
+    vim.cmd.packadd("nvim-dap-python")
+    vim.cmd.packadd("nvim-dap-vscode-js")
+    vim.cmd.packadd("nvim-dap-go")
+    if package.loaded["telescope"] then
+        if not package.loaded["telescope-dap"] then
+            vim.cmd.packadd("telescope-dap.nvim")
+        end
+        require('telescope').load_extension('dap')
+    end
 
-dap.adapters.php = {
-    type = "executable",
-    command = "node",
-    args = { vim.env.HOME .. "/.vim/pack/plugins/vscode-php-debug/out/phpDebug.js" }
-}
+    require("nvim-dap-virtual-text").setup()
+    require("dapui").setup()
+    local dap, dapui = require("dap"), require("dapui")
+    dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+    end
+    dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+    end
+    dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+    end
+    dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+    end
+    vim.fn.sign_define("DapStopped", { text = "→", texthl = "DiagnosticWarn" })
+    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DiagnosticInfo" })
+    vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DiagnosticError" })
+    vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "DiagnosticInfo" })
+    vim.fn.sign_define("DapLogPoint", { text = ".>", texthl = "DiagnosticInfo" })
 
-dap.configurations.php = {
-    {
-        type = "php",
-        request = "launch",
-        name = "Listen for Xdebug",
-        port = 9003
-    }
-}
-
-require("dap-python").setup(vim.env.HOME .. "/.virtualenvs/debugpy/bin/python")
-
-require("dap-vscode-js").setup({
-    -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-    debugger_path = vim.env.HOME .. "/.vim/pack/plugins/js-debug",
-    -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
-    adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
-    -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
-    -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
-    -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
-})
-
-for _, language in ipairs({ "typescript", "javascript" }) do
-    require("dap").configurations[language] = {
-        {
-            type = "pwa-node",
-            request = "attach",
-            processId = require 'dap.utils'.pick_process,
-            name = "Attach debugger to existing `node --inspect` process",
-            sourceMaps = true,
-            -- resolve source maps in nested locations while ignoring node_modules
-            resolveSourceMapLocations = {
-                "${workspaceFolder}/**",
-                "!**/node_modules/**" },
-            -- path to src in vite based projects (and most other projects as well)
-            cwd = "${workspaceFolder}/src",
-            skipFiles = { "${workspaceFolder}/node_modules/**/*.js" },
-        },
-        {
-            type = "pwa-chrome",
-            name = "Launch Chrome to debug client",
-            request = "launch",
-            url = "http://localhost:5173",
-            sourceMaps = true,
-            protocol = "inspector",
-            port = 9222,
-            webRoot = "${workspaceFolder}/src",
-            -- skip files from vite's hmr
-            skipFiles = { "**/node_modules/**/*", "**/@vite/*", "**/src/client/*", "**/src/*" },
-        },
-        language == "javascript" and {
-            type = "pwa-node",
-            request = "launch",
-            name = "Launch file in new node process",
-            program = "${file}",
-            cwd = "${workspaceFolder}",
-        } or nil,
-    }
-end
-
-require("dap").adapters["pwa-node"] = {
-    type = "server",
-    host = "localhost",
-    port = "${port}",
-    executable = {
+    dap.adapters.php = {
+        type = "executable",
         command = "node",
-        args = {
-            vim.env.HOME .. "/.vim/pack/plugins/js-debug/src/dapDebugServer.js",
-            "${port}",
-        },
-    },
-}
+        args = { vim.env.HOME .. "/.vim/pack/plugins/vscode-php-debug/out/phpDebug.js" }
+    }
 
-require('dap-go').setup()
+    dap.configurations.php = {
+        {
+            type = "php",
+            request = "launch",
+            name = "Listen for Xdebug",
+            port = 9003
+        }
+    }
+
+    require("dap-python").setup(vim.env.HOME .. "/.virtualenvs/debugpy/bin/python")
+
+    require("dap-vscode-js").setup({
+        -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+        debugger_path = vim.env.HOME .. "/.vim/pack/plugins/js-debug",
+        -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+        adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
+        -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+        -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+        -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+    })
+
+    for _, language in ipairs({ "typescript", "javascript" }) do
+        require("dap").configurations[language] = {
+            {
+                type = "pwa-node",
+                request = "attach",
+                processId = require 'dap.utils'.pick_process,
+                name = "Attach debugger to existing `node --inspect` process",
+                sourceMaps = true,
+                -- resolve source maps in nested locations while ignoring node_modules
+                resolveSourceMapLocations = {
+                    "${workspaceFolder}/**",
+                    "!**/node_modules/**" },
+                -- path to src in vite based projects (and most other projects as well)
+                cwd = "${workspaceFolder}/src",
+                skipFiles = { "${workspaceFolder}/node_modules/**/*.js" },
+            },
+            {
+                type = "pwa-chrome",
+                name = "Launch Chrome to debug client",
+                request = "launch",
+                url = "http://localhost:5173",
+                sourceMaps = true,
+                protocol = "inspector",
+                port = 9222,
+                webRoot = "${workspaceFolder}/src",
+                -- skip files from vite's hmr
+                skipFiles = { "**/node_modules/**/*", "**/@vite/*", "**/src/client/*", "**/src/*" },
+            },
+            language == "javascript" and {
+                type = "pwa-node",
+                request = "launch",
+                name = "Launch file in new node process",
+                program = "${file}",
+                cwd = "${workspaceFolder}",
+            } or nil,
+        }
+    end
+
+    require("dap").adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+            command = "node",
+            args = {
+                vim.env.HOME .. "/.vim/pack/plugins/js-debug/src/dapDebugServer.js",
+                "${port}",
+            },
+        },
+    }
+
+    require('dap-go').setup()
+    require("dap").toggle_breakpoint()
+end
+vim.keymap.set('n', '<leader>G', dap, {})
 
 --###### QUICK SCOPE ########
-require'eyeliner'.setup {
-  highlight_on_key = true,
-  dim = true,
+vim.cmd.packadd("eyeliner.nvim")
+require 'eyeliner'.setup {
+    highlight_on_key = true,
+    dim = true,
 }
+
 vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = 'visual_studio_code',
-  callback = function()
-    vim.api.nvim_set_hl(0, 'EyelinerDimmed', { fg = '#969696' })
-    vim.api.nvim_set_hl(0, 'EyelinerPrimary', { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
-    vim.api.nvim_set_hl(0, 'EyelinerSecondary', { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
-  end,
+    pattern = 'visual_studio_code',
+    callback = function()
+        vim.api.nvim_set_hl(0, 'EyelinerDimmed', { fg = '#969696' })
+        vim.api.nvim_set_hl(0, 'EyelinerPrimary',
+            { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
+        vim.api.nvim_set_hl(0, 'EyelinerSecondary',
+            { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
+    end,
 })
 vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = 'nord',
-  callback = function()
-    vim.api.nvim_set_hl(0, 'EyelinerDimmed', { fg = vim.api.nvim_get_hl_by_name('Comment', true).foreground })
-    vim.api.nvim_set_hl(0, 'EyelinerPrimary', { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
-    vim.api.nvim_set_hl(0, 'EyelinerSecondary', { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
-  end,
+    pattern = 'nord',
+    callback = function()
+        vim.api.nvim_set_hl(0, 'EyelinerDimmed', { fg = vim.api.nvim_get_hl_by_name('Comment', true).foreground })
+        vim.api.nvim_set_hl(0, 'EyelinerPrimary',
+            { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
+        vim.api.nvim_set_hl(0, 'EyelinerSecondary',
+            { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
+    end,
 })
 
-vim.api.nvim_set_hl(0, 'EyelinerPrimary', { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
-vim.api.nvim_set_hl(0, 'EyelinerSecondary', { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
+vim.api.nvim_set_hl(0, 'EyelinerPrimary',
+    { fg = vim.api.nvim_get_hl_by_name('Constant', true).foreground, bold = true, underline = true })
+vim.api.nvim_set_hl(0, 'EyelinerSecondary',
+    { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
 
 --###### SEARCH INDEX ########
 require('hlslens').setup()
 
-local kopts = {noremap = true, silent = true}
+local kopts = { noremap = true, silent = true }
 
 vim.api.nvim_set_keymap('n', 'n',
     [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
@@ -702,5 +797,25 @@ vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]]
 vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 
 vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
+
+--###### Diffview #######
+local function load_diffview_and_execute(cmd)
+    if not package.loaded["diffview"] then
+        vim.cmd.packadd("diffview.nvim")
+    end
+    vim.cmd(cmd)
+end
+
+vim.keymap.set("n", "<leader>do", function()
+    load_diffview_and_execute("DiffviewOpen")
+end, { noremap = true, silent = true, desc = "Lazy load Diffview and open" })
+
+vim.keymap.set("n", "<leader>dc", function()
+    load_diffview_and_execute("DiffviewClose")
+end, { noremap = true, silent = true, desc = "Close Diffview (lazy load compatible)" })
+vim.keymap.set("n", "<leader>df", function()
+    load_diffview_and_execute("DiffviewFileHistory")
+end, { noremap = true, silent = true, desc = "Lazy load Diffview and show file history" })
+
 
 vim.env.PATH = '/opt/homebrew/bin:' .. vim.env.HOME .. '/go/bin:/usr/local/go/bin:/usr/local/bin:' .. vim.env.PATH

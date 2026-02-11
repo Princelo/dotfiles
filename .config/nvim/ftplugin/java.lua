@@ -32,14 +32,14 @@ local config = {
     --'-Xbootclasspath/a:/Users/princelo/.vim/pack/plugins/lombok.jar',
 
     -- 💀
-    '-jar', vim.env.HOME .. '/.vim/pack/plugins/jdt-language-server-1.46.1-202504011455/plugins/org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar',
+    '-jar', vim.env.HOME .. '/.vim/pack/plugins/jdt-language-server-1.54.0-202511261751/plugins/org.eclipse.equinox.launcher_1.7.100.v20251111-0406.jar',
          -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
          -- Must point to the                                                     Change this to
          -- eclipse.jdt.ls installation                                           the actual version
 
 
     -- 💀
-    '-configuration', vim.env.HOME .. '/.vim/pack/plugins/jdt-language-server-1.46.1-202504011455/config_mac_arm',
+    '-configuration', vim.env.HOME .. '/.vim/pack/plugins/jdt-language-server-1.54.0-202511261751/config_mac_arm',
                     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
                     -- Must point to the                      Change to one of `linux`, `win` or `mac`
                     -- eclipse.jdt.ls installation            Depending on your system.
@@ -82,4 +82,28 @@ local config = {
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 
-if vim.g.java == 1 then require('jdtls').start_or_attach(config) end
+local jdtls = function()
+    if not package.loaded["jdtls"] then
+        vim.cmd.packadd('nvim-jdtls')
+    end
+    require('jdtls').start_or_attach(config)
+end
+
+if vim.g.java == 1 then
+    jdtls()
+end
+
+vim.api.nvim_create_user_command(
+    "Jvm",
+    function ()
+        vim.g.java = 1
+        jdtls()
+    end,
+    { bang = false }
+)
+
+vim.api.nvim_create_user_command(
+    "JvmInstant",
+    jdtls,
+    { bang = false }
+)
