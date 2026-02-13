@@ -121,3 +121,6 @@
 [submodule ".vim/pack/plugins/start/nvim-hlslens"]
 	path = .vim/pack/plugins/start/nvim-hlslens
 	url = https://github.com/kevinhwang91/nvim-hlslens.git
+[submodule ".vim/pack/plugins/start/Comment.nvim"]
+	path = .vim/pack/plugins/start/Comment.nvim
+	url = https://github.com/numToStr/Comment.nvim.git

@@ -795,5 +795,7 @@ vim.keymap.set("n", "<leader>df", function()
   load_diffview_and_execute("DiffviewFileHistory")
 end, { noremap = true, silent = true, desc = "Lazy load Diffview and show file history" })
 
+--###### Comment #######
+require('Comment').setup()
 
 vim.env.PATH = '/opt/homebrew/bin:' .. vim.env.HOME .. '/go/bin:/usr/local/go/bin:/usr/local/bin:' .. vim.env.PATH
