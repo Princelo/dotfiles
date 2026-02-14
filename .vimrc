@@ -390,7 +390,7 @@ function! s:Bclose(bang, buffer)
   execute wcurrent.'wincmd w'
 endfunction
 command! -bang -complete=buffer -nargs=? Bclose call <SID>Bclose(<q-bang>, <q-args>)
-cabbrev bc Bclose
+cabbrev bd Bclose
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
