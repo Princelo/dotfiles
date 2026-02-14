@@ -290,7 +290,7 @@ vim.keymap.set('v', '<leader>s', function()
     default_text = selected_text
   })
 end, kopts)
-vim.keymap.set('n', '<leader>bl', function() telescope().buffers() end, kopts)
+vim.keymap.set('n', '<leader>b', function() telescope().buffers() end, kopts)
 vim.keymap.set('n', '<leader>t', function() telescope().tags() end, kopts)
 --vim.keymap.set('v', '<leader>t', '"ty:Telescope tags default_text=<C-r>t<CR>', {})
 vim.keymap.set('v', '<leader>t', function()
@@ -796,6 +796,15 @@ vim.keymap.set("n", "<leader>df", function()
 end, { noremap = true, silent = true, desc = "Lazy load Diffview and show file history" })
 
 --###### Comment #######
-require('Comment').setup()
+require('Comment').setup({
+  toggler = {
+    line = '<leader>c',
+    block = '<leader>C',
+  },
+  opleader = {
+    line = '<leader>c',
+    block = '<leader>C',
+  },
+})
 
 vim.env.PATH = '/opt/homebrew/bin:' .. vim.env.HOME .. '/go/bin:/usr/local/go/bin:/usr/local/bin:' .. vim.env.PATH
