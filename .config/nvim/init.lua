@@ -35,13 +35,13 @@ end
 
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set("n", "]ad", vim.diagnostic.setqflist)
-vim.keymap.set("n", "[ad", vim.diagnostic.setqflist)
+vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist)
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = 0 })
 nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-nmap("gD", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Open Definition in Vertical Split")
+-- nmap("gD", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Open Definition in Vertical Split")
+nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 nmap("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
 nmap("<leader>Ic", vim.lsp.buf.incoming_calls, "[I]ncoming [C]alls")
@@ -61,7 +61,7 @@ end, "[W]orkspace [L]ist Folders")
 nmap("==", vim.lsp.buf.format, "Format Buffer")
 vmap("=", vim.lsp.buf.format, "Format Buffer")
 local diagnostics_active = true
-vim.keymap.set('n', '<leader>dn', function()
+vim.keymap.set('n', '<leader>da', function()
   diagnostics_active = not diagnostics_active
   if diagnostics_active then
     vim.diagnostic.show()

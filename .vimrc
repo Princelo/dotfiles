@@ -401,7 +401,30 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
 endif
 
 
-nnoremap <leader>java :read $HOME/Tools/template.java<CR>kdd13jA
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Quickfix
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Define a helper function to check if quickfix window exists
+function! QuickfixWindowExists() abort
+  " Iterate over all windows to find the quickfix (qf) window
+  for win in range(1, winnr('$'))
+    let buf = winbufnr(win)
+    if getbufvar(buf, '&filetype') ==# 'qf'
+      return 1 " Quickfix window exists (true)
+    endif
+  endfor
+  return 0 " Quickfix window does NOT exist (false)
+endfunction
+
+nnoremap <silent> <leader>q :call ToggleQuickFix()<cr>
+function! ToggleQuickFix()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+        copen
+    else
+        cclose
+    endif
+endfunction
+
 
 if $JAVA == 1
     let g:java = 1
