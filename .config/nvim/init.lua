@@ -104,8 +104,10 @@ local border = {
 -- To instead override globally
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-  opts = opts or {}
-  opts.border = opts.border or border
+  if vim.g.colors_name == "nord" then
+    opts = opts or {}
+    opts.border = opts.border or border
+  end
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
