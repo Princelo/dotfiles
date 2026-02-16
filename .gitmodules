@@ -1,9 +1,6 @@
 [submodule ".vim/pack/plugins/start/bufferline.nvim"]
 	path = .vim/pack/plugins/start/bufferline.nvim
 	url = https://github.com/akinsho/bufferline.nvim.git
-[submodule ".vim/pack/plugins/start/cmp-nvim-lsp"]
-	path = .vim/pack/plugins/start/cmp-nvim-lsp
-	url = https://github.com/hrsh7th/cmp-nvim-lsp.git
 [submodule ".vim/pack/plugins/start/eyeliner.nvim"]
 	path = .vim/pack/plugins/start/eyeliner.nvim
 	url = https://github.com/jinh0/eyeliner.nvim.git
@@ -28,9 +25,6 @@
 [submodule ".vim/pack/plugins/start/nvim-autopairs"]
 	path = .vim/pack/plugins/start/nvim-autopairs
 	url = https://github.com/windwp/nvim-autopairs.git
-[submodule ".vim/pack/plugins/start/nvim-cmp"]
-	path = .vim/pack/plugins/start/nvim-cmp
-	url = https://github.com/hrsh7th/nvim-cmp.git
 [submodule ".vim/pack/plugins/opt/nvim-dap"]
 	path = .vim/pack/plugins/opt/nvim-dap
 	url = https://github.com/mfussenegger/nvim-dap.git
@@ -124,3 +118,6 @@
 [submodule ".vim/pack/plugins/start/Comment.nvim"]
 	path = .vim/pack/plugins/start/Comment.nvim
 	url = https://github.com/numToStr/Comment.nvim.git
+[submodule ".vim/pack/plugins/opt/blink.cmp"]
+	path = .vim/pack/plugins/opt/blink.cmp
+	url = https://github.com/saghen/blink.cmp.git
