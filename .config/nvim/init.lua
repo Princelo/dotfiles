@@ -251,28 +251,29 @@ local telescope = function()
   return require("telescope.builtin")
 end
 
-vim.keymap.set('n', '<leader>f', function() telescope().find_files() end, kopts)
-vim.keymap.set('n', '<leader>F', function()
-    local builtin = telescope()
-    local node = nil
-    if package.loaded["nvim-tree"] then
-      node = require("nvim-tree.api").tree.get_node_under_cursor()
-    end
+local nvimtree_selected = function()
+  local current_win = vim.api.nvim_get_current_win()
+  local current_buf = vim.api.nvim_win_get_buf(current_win)
+  local buf_name = vim.api.nvim_buf_get_name(current_buf)
+  print(buf_name)
+  if not string.find(buf_name, "NvimTree") then
+    return false
+  end
+  return true
+end
+vim.keymap.set('n', '<leader>f', function()
+  local builtin = telescope()
+  local node = nil
+  if nvimtree_selected() and package.loaded["nvim-tree"] then
+    node = require("nvim-tree.api").tree.get_node_under_cursor()
+  end
   if node and node.type == "directory" then
     builtin.find_files({
       cwd = node.absolute_path,
       prompt_title = "Find Files in Selected Directory"
     })
-  elseif node and node.type == "file" then
-    builtin.find_files({
-      cwd = vim.fn.fnamemodify(node.absolute_path, ":h"),
-      prompt_title = "Find Files in Current Path"
-    })
   else
-    builtin.find_files({
-      cwd = vim.fn.expand('%:p:h'),
-      prompt_title = "Find Files in Current Path"
-    })
+    builtin.find_files()
   end
 end, kopts)
 --vim.keymap.set('v', '<leader>f', '"sy:Telescope find_files default_text=<C-r>s<CR>', {})
@@ -284,51 +285,13 @@ vim.keymap.set('v', '<leader>f', function()
     default_text = selected_text
   })
 end, kopts)
-vim.keymap.set('v', '<leader>F', function()
-  local builtin = telescope()
-  vim.cmd('normal! "sy')
-  local selected_text = vim.fn.getreg('s')
-  -- builtin.find_files({
-  --   default_text = selected_text
-  -- })
-  local node = nil
-  if package.loaded["nvim-tree"] then
-    node = require("nvim-tree.api").tree.get_node_under_cursor()
-  end
-  if node and node.type == "directory" then
-    builtin.find_files({
-      default_text = selected_text,
-      cwd = node.absolute_path,
-      prompt_title = "Find Files in Selected Directory"
-    })
-  elseif node and node.type == "file" then
-    builtin.find_files({
-      default_text = selected_text,
-      cwd = vim.fn.fnamemodify(node.absolute_path, ":h"),
-      prompt_title = "Find Files in Current Path"
-    })
-  else
-    builtin.find_files({
-      default_text = selected_text,
-      cwd = vim.fn.expand('%:p:h'),
-      prompt_title = "Find Files in Current Path"
-    })
-  end
-end, kopts)
 vim.keymap.set('n', '<leader>/', function()
-  telescope()
-  if not package.loaded["telescope-live-grep-args"] then
-    vim.cmd.packadd("telescope-live-grep-args.nvim")
-  end
-  require("telescope").extensions.live_grep_args.live_grep_args()
-end, kopts)
-vim.keymap.set('n', '<leader>?', function()
   local builtin = telescope()
   if not package.loaded["telescope-live-grep-args"] then
     vim.cmd.packadd("telescope-live-grep-args.nvim")
   end
   local node = nil
-  if package.loaded["nvim-tree"] then
+  if nvimtree_selected() and package.loaded["nvim-tree"] then
     node = require("nvim-tree.api").tree.get_node_under_cursor()
   end
   if node and node.type == "directory" then
@@ -342,11 +305,7 @@ vim.keymap.set('n', '<leader>?', function()
       prompt_title = "Find In: " .. node.name,
     })
   else
-    builtin.live_grep({
-      grep_open_files = true,
-      search_dirs = {vim.fn.expand('%:p')},
-      prompt_title = "Find In Current Files",
-    })
+    builtin.live_grep()
   end
 end, kopts)
 --vim.keymap.set('v', '<leader>/', '"sy:Telescope live_grep_args default_text="<C-r>s<CR>"', {})
@@ -360,21 +319,6 @@ vim.keymap.set('v', '<leader>/', function()
   local selected_text = vim.fn.getreg('s')
   require('telescope').extensions.live_grep_args.live_grep_args({
     default_text = selected_text
-  })
-end, kopts)
-vim.keymap.set('v', '<leader>?', function()
-  telescope()
-  if not package.loaded["telescope-live-grep-args"] then
-    vim.cmd.packadd("telescope-live-grep-args.nvim")
-  end
-
-  vim.cmd('normal! "sy')
-  local selected_text = vim.fn.getreg('s')
-  require('telescope').extensions.live_grep_args.live_grep_args({
-    default_text = selected_text,
-    grep_open_files = true,
-    search_dirs = {vim.fn.expand('%:p')},
-    prompt_title = "Find In Current Files",
   })
 end, kopts)
 vim.keymap.set('n', '<leader>b', function() telescope().buffers() end, kopts)
