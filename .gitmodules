@@ -112,8 +112,8 @@
 [submodule ".vim/pack/plugins/opt/diffview.nvim"]
 	path = .vim/pack/plugins/opt/diffview.nvim
 	url = https://github.com/sindrets/diffview.nvim.git
-[submodule ".vim/pack/plugins/start/nvim-hlslens"]
-	path = .vim/pack/plugins/start/nvim-hlslens
+[submodule ".vim/pack/plugins/opt/nvim-hlslens"]
+	path = .vim/pack/plugins/opt/nvim-hlslens
 	url = https://github.com/kevinhwang91/nvim-hlslens.git
 [submodule ".vim/pack/plugins/start/Comment.nvim"]
 	path = .vim/pack/plugins/start/Comment.nvim

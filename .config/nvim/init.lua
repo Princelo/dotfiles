@@ -559,7 +559,7 @@ require("bufferline").setup({
       },
       {
         filetype = "NvimTree",
-        text = "Explorer",
+        text = "",
         highlight = "PanelHeading",
         padding = 1,
       },
@@ -791,21 +791,41 @@ vim.api.nvim_set_hl(0, 'EyelinerSecondary',
   { fg = vim.api.nvim_get_hl_by_name('Define', true).foreground, underline = true })
 
 --###### SEARCH INDEX ########
-require('hlslens').setup()
+_G.lazy_hlslens = function(cmd)
+  if not package.loaded['hlslens'] then
+    vim.cmd.packadd("nvim-hlslens")
+    require('hlslens').setup()
+  end
+  vim.cmd(cmd)
+end
 
 
 vim.api.nvim_set_keymap('n', 'n',
-  [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+  [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua lazy_hlslens('lua require("hlslens").start()')<CR>]],
   kopts)
 vim.api.nvim_set_keymap('n', 'N',
-  [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+  [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua lazy_hlslens('lua require("hlslens").start()')<CR>]],
   kopts)
-vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua lazy_hlslens('lua require("hlslens").start()')<CR>]], kopts)
+vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua lazy_hlslens('lua require("hlslens").start()')<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua lazy_hlslens('lua require("hlslens").start()')<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua lazy_hlslens('lua require("hlslens").start()')<CR>]], kopts)
 
 vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
+
+vim.api.nvim_create_autocmd({
+  "CmdlineEnter",
+}, {
+  pattern = { "/", "?" },
+  callback = function()
+    if not package.loaded['hlslens'] then
+      vim.cmd.packadd("nvim-hlslens")
+      require('hlslens').setup()
+    end
+  end,
+  once = false,
+  desc = "Lazy load hlslens on search events",
+})
 
 --###### Diffview #######
 local function load_diffview_and_execute(cmd)
