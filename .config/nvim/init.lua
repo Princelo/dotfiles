@@ -74,13 +74,28 @@ nmap("<leader>K", vim.diagnostic.open_float, "Diagnostic Open Float")
 
 --###### CMP #########
 local blink = function()
-  if package.loaded["blink.cmp"] then
-    return
+  if not package.loaded["nvim-ts-autotag"] then
+    vim.cmd.packadd("nvim-ts-autotag")
+    require('nvim-ts-autotag').setup({
+      opts = {
+        -- Defaults
+        enable_close = true,      -- Auto close tags
+        enable_rename = false,    -- Auto rename pairs of tags
+        enable_close_on_slash = false -- Auto close on trailing </
+      },
+      per_filetype = {
+        --["html"] = {
+        --  enable_close = false
+        --}
+      }
+    })
   end
-  vim.cmd.packadd("blink.cmp")
-  require("blink.cmp").setup({
-    keymap = { preset = 'super-tab' }
-  })
+  if not package.loaded["blink.cmp"] then
+    vim.cmd.packadd("blink.cmp")
+    require("blink.cmp").setup({
+      keymap = { preset = 'super-tab' }
+    })
+  end
 end
 vim.api.nvim_create_autocmd('InsertEnter', {
   pattern = '*',
@@ -111,19 +126,6 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-require('nvim-ts-autotag').setup({
-  opts = {
-    -- Defaults
-    enable_close = true,              -- Auto close tags
-    enable_rename = false,            -- Auto rename pairs of tags
-    enable_close_on_slash = false     -- Auto close on trailing </
-  },
-  per_filetype = {
-    --["html"] = {
-    --  enable_close = false
-    --}
-  }
-})
 require("nvim-autopairs").setup {}
 
 vim.o.foldcolumn = '0'
