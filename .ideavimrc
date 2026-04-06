@@ -10,11 +10,13 @@ nmap <leader>tm :action ActivateTerminalToolWindow<CR>
 nmap <leader>/ :action FindInPath<CR>
 vmap <leader>/ :action FindInPath<CR>
 nmap <leader>f :action GotoFile<CR>
-nmap <leader>t :action GotoSymbol<CR>
-vmap <leader>t :action GotoSymbol<CR>
-vmap <leader>l :action ReformatCode<CR>
+nmap <leader>s :action GotoSymbol<CR>
+vmap <leader>s :action GotoSymbol<CR>
+nmap <leader>S :action GotoSymbol<CR>
+vmap <leader>S :action GotoSymbol<CR>
+vmap = :action ReformatCode<CR>
 nmap <leader>b :action RecentFiles<CR>
-nmap <leader>ca :action ShowIntentionActions<CR>
+nmap <leader>a :action ShowIntentionActions<CR>
 set ideajoin
 set NERDTree
 nmap <leader>e :NERDTree<CR>
@@ -36,3 +38,4 @@ nnoremap gbc :action CommentByBlockComment<CR>
 nnoremap <leader>C :action CommentByBlockComment<CR>
 vnoremap gb :action CommentByBlockComment<CR>
 vnoremap <leader>C :action CommentByBlockComment<CR>
+nnoremap <leader>l :noh<CR>

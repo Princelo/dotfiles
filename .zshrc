@@ -6,6 +6,13 @@ if [[ "$(uname)" == "Darwin" ]]; then
     alias posting="TERM_PROGRAM=Apple_Terminal posting"
 fi
 export GOPATH=$HOME/go
+plugins=(
+  git
+  sudo
+  history
+  macos
+  qrcode
+)
 export ZSH="$HOME/.oh-my-zsh"
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH:$M2_HOME/bin:$HOME/go/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin"
 export PATH="$PATH:$JAVA_HOME/bin"
@@ -89,3 +96,4 @@ hjson() {
 json() {
     jq < "$1" | nvim -c 'set ft=json' -c 'Light' -c 'set nornu'
 }
+

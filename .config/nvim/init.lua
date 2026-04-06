@@ -3,6 +3,28 @@ vim.cmd.source(vimrc)
 
 local kopts = { noremap = true, silent = true }
 
+
+
+local indent_group = vim.api.nvim_create_augroup("IndentByFileType", { clear = true })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = indent_group,
+  pattern = { "javascript", "typescript", "jsx", "tsx", "lua", "html", "xml", "css", "json", "yaml", "toml", "markdown", "vue", "Dockerfile" },
+  callback = function()
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.softtabstop = 2
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = indent_group,
+  pattern = { "go", "sh", "make" },
+  callback = function()
+    vim.opt_local.expandtab = false
+  end,
+})
+
 --###### GITBLAME #########
 require('gitsigns').setup()
 
@@ -38,7 +60,7 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnos
 vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist)
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = 0 })
 nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+nmap("<leader>a", vim.lsp.buf.code_action, "Code [A]ction")
 nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
 -- nmap("gD", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Open Definition in Vertical Split")
 nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
@@ -272,7 +294,7 @@ vim.keymap.set('n', '<leader>f', function()
   if node and node.type == "directory" then
     builtin.find_files({
       cwd = node.absolute_path,
-      prompt_title = "Find Files in Selected Directory"
+      prompt_title = "Find Files In: " .. node.name
     })
   else
     builtin.find_files()
@@ -324,20 +346,28 @@ vim.keymap.set('v', '<leader>/', function()
   })
 end, kopts)
 vim.keymap.set('n', '<leader>b', function() telescope().buffers() end, kopts)
-vim.keymap.set('n', '<leader>t', function() telescope().tags() end, kopts)
---vim.keymap.set('v', '<leader>t', '"ty:Telescope tags default_text=<C-r>t<CR>', {})
-vim.keymap.set('v', '<leader>t', function()
+-- vim.keymap.set('n', '<leader>t', function() telescope().tags() end, kopts)
+-- vim.keymap.set('v', '<leader>t', '"ty:Telescope tags default_text=<C-r>t<CR>', {})
+vim.keymap.set('v', '<leader>s', function()
   local builtin = telescope()
   vim.cmd('normal! "ty')
   local selected_text = vim.fn.getreg('t')
-  builtin.tags({
+  builtin.lsp_document_symbols({
+    default_text = selected_text
+  })
+end, kopts)
+vim.keymap.set('v', '<leader>S', function()
+  local builtin = telescope()
+  vim.cmd('normal! "ty')
+  local selected_text = vim.fn.getreg('t')
+  builtin.lsp_dynamic_workspace_symbols({
     default_text = selected_text
   })
 end, kopts)
 vim.keymap.set('n', '<leader>r', function() telescope().registers() end, kopts)
 vim.keymap.set('n', 'gr', function() telescope().lsp_references() end, kopts)
-nmap('<leader>ds', function () telescope().lsp_document_symbols() end,  "[D]ocument [S]ymbols")
-nmap('<leader>ws', function() telescope().lsp_dynamic_workspace_symbols() end, "[W]orkspace [S]ymbols")
+nmap('<leader>s', function () telescope().lsp_document_symbols() end,  "Document [S]ymbols")
+nmap('<leader>S', function() telescope().lsp_dynamic_workspace_symbols() end, "Workspace [S]ymbols")
 
 
 --###### NVIM TREE #########
@@ -758,7 +788,7 @@ local dap = function()
   require('dap-go').setup()
   require("dap").toggle_breakpoint()
 end
-vim.keymap.set('n', '<leader>G', dap, {})
+vim.keymap.set('n', '<leader>Gb', dap, {})
 
 --###### QUICK SCOPE ########
 require 'eyeliner'.setup {
