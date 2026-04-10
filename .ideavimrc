@@ -9,6 +9,7 @@ nmap <leader>h :action TypeHierarchy<CR>
 nmap <leader>tm :action ActivateTerminalToolWindow<CR>
 nmap <leader>/ :action FindInPath<CR>
 vmap <leader>/ :action FindInPath<CR>
+vmap <leader>f :action GotoFile<CR>
 nmap <leader>f :action GotoFile<CR>
 nmap <leader>s :action GotoSymbol<CR>
 vmap <leader>s :action GotoSymbol<CR>

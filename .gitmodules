@@ -55,9 +55,6 @@
 [submodule ".vim/pack/plugins/opt/nvim-tree.lua"]
 	path = .vim/pack/plugins/opt/nvim-tree.lua
 	url = https://github.com/nvim-tree/nvim-tree.lua.git
-[submodule ".vim/pack/plugins/start/nvim-treesitter"]
-	path = .vim/pack/plugins/start/nvim-treesitter
-	url = https://github.com/nvim-treesitter/nvim-treesitter.git
 [submodule ".vim/pack/plugins/opt/nvim-ts-autotag"]
 	path = .vim/pack/plugins/opt/nvim-ts-autotag
 	url = https://github.com/windwp/nvim-ts-autotag.git
@@ -121,3 +118,6 @@
 [submodule ".vim/pack/plugins/opt/blink.cmp"]
 	path = .vim/pack/plugins/opt/blink.cmp
 	url = https://github.com/saghen/blink.cmp.git
+[submodule ".vim/pack/plugins/start/tree-sitter-manager.nvim"]
+	path = .vim/pack/plugins/start/tree-sitter-manager.nvim
+	url = https://github.com/romus204/tree-sitter-manager.nvim.git
