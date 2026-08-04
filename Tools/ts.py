@@ -10,7 +10,7 @@ if len(sys.argv) == 1:
     print(int(ut))
     exit(0)
 
-if (len(sys.argv) == 2):
+if len(sys.argv) == 2:
     if len(sys.argv[1]) not in [10, 13]:
         exit(0)
     ts = int(sys.argv[1])

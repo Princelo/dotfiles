@@ -62,14 +62,15 @@ alias 6th="awk '{print \$6}'"
 alias 7th="awk '{print \$7}'"
 alias 8th="awk '{print \$8}'"
 alias 9th="awk '{print \$9}'"
+alias git-set-identity='export GIT_AUTHOR_NAME="Princelo";export GIT_AUTHOR_EMAIL="lamkimcheung@gmail.com";export GIT_COMMITTER_NAME="Princelo";export GIT_COMMITTER_EMAIL="lamkimcheung@gmail.com"'
+alias git-clear-identity='unset GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL GIT_COMMITTER_NAME GIT_COMMITTER_EMAIL'
 
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	command rm -f -- "$tmp"
 }
 alias lower="tr A-Z a-z"
 alias upper="tr a-z A-Z"

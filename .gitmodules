@@ -121,3 +121,12 @@
 [submodule ".vim/pack/plugins/start/tree-sitter-manager.nvim"]
 	path = .vim/pack/plugins/start/tree-sitter-manager.nvim
 	url = https://github.com/romus204/tree-sitter-manager.nvim.git
+[submodule ".vim/pack/plugins/start/nvim-treesitter-textobjects"]
+	path = .vim/pack/plugins/start/nvim-treesitter-textobjects
+	url = https://github.com/nvim-treesitter/nvim-treesitter-textobjects.git
+[submodule ".vim/pack/plugins/start/nvim-surround"]
+	path = .vim/pack/plugins/start/nvim-surround
+	url = https://github.com/kylechui/nvim-surround.git
+[submodule ".vim/pack/plugins/start/codediff.nvim"]
+	path = .vim/pack/plugins/start/codediff.nvim
+	url = https://github.com/esmuellert/codediff.nvim.git

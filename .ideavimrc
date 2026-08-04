@@ -22,6 +22,8 @@ nmap <leader>b :action RecentFiles<CR>
 nmap <leader>a :action ShowIntentionActions<CR>
 set ideajoin
 set NERDTree
+set anyobject
+set surround
 nmap <leader>e :NERDTree<CR>
 nmap ]b :action <Action>(NextTab)
 nmap [b :action <Action>(PreviousTab)
