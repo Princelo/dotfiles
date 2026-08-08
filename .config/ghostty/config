@@ -1,4 +1,4 @@
-theme = nord
+theme = Nord
 cursor-invert-fg-bg = true
 window-title-font-family="FiraCode Nerd Font Propo"
 title=" "
