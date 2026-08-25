@@ -1,6 +1,6 @@
-window-title-font-family="FiraCode Nerd Font Propo"
+window-title-font-family="FiraCode Nerd Font"
 title=""
 theme = nord
 cursor-invert-fg-bg = true
-font-family="FiraCode Nerd Font Propo"
+font-family="FiraCode Nerd Font"
 adjust-cell-height=30%

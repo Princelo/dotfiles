@@ -1,9 +1,9 @@
 theme = Nord
 cursor-invert-fg-bg = true
-window-title-font-family="FiraCode Nerd Font Propo"
+window-title-font-family="FiraCode Nerd Font"
 title=" "
 macos-titlebar-proxy-icon=hidden
-font-family="FiraCode Nerd Font Propo"
+font-family="FiraCode Nerd Font"
 adjust-cell-height=30%
 macos-icon=official
 macos-option-as-alt=true

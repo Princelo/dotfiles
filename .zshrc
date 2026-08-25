@@ -81,6 +81,7 @@ alias vic="vic(){java -jar ~/cfr-0.151.jar \$1| vi -c 'set ft=java'; unset -f vi
 alias fj="touch mvnw"
 alias vj="vj(){export JAVA=1; vim \$@; export JAVA=0;}; vj"
 alias mvnnew="mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.5 -DinteractiveMode=false"
+alias rm='printf "\033[1;31m⚠️ rm is disabled for safety; use /bin/rm if you really mean it\033[0m\n"'
 
 eval "$(zoxide init zsh)"
 
