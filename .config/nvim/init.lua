@@ -1126,7 +1126,7 @@ local function dap()
 	dap.adapters.php = {
 		type = "executable",
 		command = "node",
-		args = { vim.env.HOME .. "/.vim/pack/plugins/vscode-php-debug/out/phpDebug.js" },
+		args = { vim.env.HOME .. "/.local/share/nvim/site/pack/plugins/vscode-php-debug/out/phpDebug.js" },
 	}
 
 	dap.configurations.php = {

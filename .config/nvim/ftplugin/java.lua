@@ -75,7 +75,7 @@ local config = {
   -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
   init_options = {
     bundles = {
-        vim.fn.glob(vim.env.HOME .. "/.vim/pack/plugins/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.53.1.jar", 1)
+        vim.fn.glob(vim.env.HOME .. "/.local/share/nvim/site/pack/plugins/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.53.1.jar", 1)
     }
   },
 }
