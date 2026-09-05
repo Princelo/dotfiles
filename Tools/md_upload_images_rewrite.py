@@ -22,6 +22,7 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+import os
 from typing import Iterable
 from urllib.parse import unquote, urlparse
 
@@ -43,6 +44,8 @@ class Options:
     backup_suffix: str
     uploader: Path
     keep_md: bool
+    dest: str | None
+    no_date_subdir: bool
 
 
 def _is_remote_src(src: str) -> bool:
@@ -244,7 +247,12 @@ def upload_images(images: list[Path], options: Options) -> dict[Path, str]:
     if options.dry_run:
         return {p: p.as_uri() for p in images}
 
-    cmd = [sys.executable, str(options.uploader), *[str(p) for p in images]]
+    cmd = [sys.executable, str(options.uploader)]
+    if options.dest:
+        cmd += ["--dest", options.dest]
+    if options.no_date_subdir:
+        cmd += ["--no-date-subdir"]
+    cmd += [str(p) for p in images]
     proc = subprocess.run(cmd, capture_output=True, text=True)
     if proc.returncode != 0:
         raise RuntimeError(
@@ -270,6 +278,13 @@ def upload_images(images: list[Path], options: Options) -> dict[Path, str]:
 
 
 def rewrite_markdown(md_file: Path, markdown_text: str, mapping: dict[Path, str], *, verbose: bool) -> str:
+    def format_md_destination(dest: str) -> str:
+        # Keep Markdown portable, but safe when paths contain spaces.
+        # CommonMark: spaces require <...> or escaping.
+        if any(ch.isspace() for ch in dest) or ")" in dest:
+            return f"<{dest}>"
+        return dest
+
     def replace_md(m: re.Match[str]) -> str:
         prefix, inner, suffix = m.group(1), m.group(2), m.group(3)
         dest = _strip_title_from_md_link_target(inner)
@@ -281,7 +296,7 @@ def rewrite_markdown(md_file: Path, markdown_text: str, mapping: dict[Path, str]
             return m.group(0)
 
         title_suffix = _md_title_suffix(inner, dest)
-        new_inner = f"{new}{title_suffix}"
+        new_inner = f"{format_md_destination(new)}{title_suffix}"
         if verbose and new_inner != inner:
             print(f"Rewrite MD: {dest} -> {new}")
         return f"{prefix}{new_inner}{suffix}"
@@ -357,11 +372,51 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="Path to typora_image_uploader.py (default: alongside this script)",
     )
     p.add_argument(
+        "--dest",
+        help=(
+            "Destination root for uploaded images. If relative, it is resolved per markdown file "
+            "(relative to the markdown's directory)."
+        ),
+    )
+    p.add_argument(
+        "--no-date-subdir",
+        action="store_true",
+        help="Pass through to uploader: do not create YYYY/MM subdirectories.",
+    )
+    p.add_argument(
         "--keep-md",
         action="store_true",
         help="Only rewrite markdown links; do not move/delete the markdown file.",
     )
     return p.parse_args(argv)
+
+
+def _uploader_output_to_path(raw: str) -> Path | None:
+    s = raw.strip()
+    if not s:
+        return None
+    if s.startswith("file://"):
+        parsed = urlparse(s)
+        p = unquote(parsed.path)
+        if len(p) >= 3 and p[0] == "/" and p[2] == ":":
+            p = p[1:]
+        return Path(p)
+    return Path(s)
+
+
+def _to_portable_relative(md_file: Path, uploaded: str) -> str:
+    dst_path = _uploader_output_to_path(uploaded)
+    if dst_path is None:
+        return uploaded
+
+    try:
+        rel = os.path.relpath(dst_path.resolve(), start=md_file.parent.resolve())
+    except Exception:
+        # As a last resort, keep whatever the uploader gave us.
+        return uploaded
+
+    # Markdown prefers forward slashes for portability.
+    return Path(rel).as_posix()
 
 
 def main(argv: list[str]) -> int:
@@ -377,6 +432,8 @@ def main(argv: list[str]) -> int:
         backup_suffix=str(args.backup_suffix),
         uploader=Path(args.uploader).resolve(),
         keep_md=bool(args.keep_md),
+        dest=str(args.dest) if args.dest else None,
+        no_date_subdir=bool(args.no_date_subdir),
     )
 
     if not options.uploader.exists():
@@ -406,7 +463,18 @@ def main(argv: list[str]) -> int:
                 continue
 
             confirm("Upload these images and rewrite links?", yes=options.yes)
-            mapping = upload_images(images, options)
+            per_file_options = options
+            if options.dest and not Path(options.dest).expanduser().is_absolute():
+                per_file_dest = (md_file.parent / Path(options.dest)).resolve()
+                per_file_options = Options(
+                    **{**options.__dict__, "dest": str(per_file_dest)}  # type: ignore[attr-defined]
+                )
+
+            uploaded_mapping = upload_images(images, per_file_options)
+            mapping = {
+                src: _to_portable_relative(md_file, uploaded)
+                for src, uploaded in uploaded_mapping.items()
+            }
 
             new_text = rewrite_markdown(md_file, text, mapping, verbose=options.verbose)
             if new_text == text:
@@ -431,4 +499,3 @@ def main(argv: list[str]) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))
-

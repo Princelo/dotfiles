@@ -14,6 +14,7 @@ This script prints the replacement `file://...` URL(s), one per line.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import os
 import sys
@@ -120,15 +121,63 @@ def _delete_fail_log_path() -> Path:
     return Path.home() / ".local" / "state" / "typora-image-uploader" / "delete-failures.log"
 
 
+def _parse_args(argv: list[str]) -> argparse.Namespace:
+    p = argparse.ArgumentParser(
+        add_help=True,
+        description=(
+            "Organize image files into a stable destination and print replacement URLs. "
+            "Designed for Typora 'Custom Command' image upload."
+        ),
+    )
+    p.add_argument(
+        "paths",
+        nargs="*",
+        help="Image file paths (or file:// URIs). If omitted, reads from stdin.",
+    )
+    p.add_argument(
+        "--dest",
+        help="Destination root directory (default: auto-pick).",
+    )
+    p.add_argument(
+        "--log",
+        help="Path to delete-failures log (default: OS-appropriate location).",
+    )
+    p.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Compute outputs without copying or deleting anything.",
+    )
+    p.add_argument(
+        "--global-root",
+        help=(
+            "If an input path does not exist and is not absolute, try resolving it "
+            "relative to this root."
+        ),
+    )
+    return p.parse_args(argv)
+
+
 def main(argv: list[str]) -> int:
-    inputs = _read_inputs(argv)
+    args = _parse_args(argv)
+
+    inputs = _read_inputs(args.paths)
     if not inputs:
         return 0
 
-    dest_root = _pick_dest_root()
-    delete_fail_log = _delete_fail_log_path()
-    date_dir = datetime.now().strftime("%Y/%m")
-    dest_dir = (dest_root / date_dir).resolve()
+    dest_root = Path(args.dest).expanduser().resolve() if args.dest else _pick_dest_root()
+    delete_fail_log = (
+        Path(args.log).expanduser().resolve() if args.log else _delete_fail_log_path()
+    )
+
+    # If the user explicitly chooses a destination, default to a flat layout
+    # (no YYYY/MM subfolders). Otherwise, use YYYY/MM to avoid huge folders.
+    if args.dest:
+        dest_dir = dest_root
+    else:
+        date_dir = datetime.now().strftime("%Y/%m")
+        dest_dir = (dest_root / date_dir).resolve()
+
+    global_root = Path(args.global_root).expanduser().resolve() if args.global_root else None
     try:
         dest_dir.mkdir(parents=True, exist_ok=True)
     except Exception:
@@ -139,7 +188,13 @@ def main(argv: list[str]) -> int:
     outputs: list[str] = []
     for raw in inputs:
         try:
-            src = _as_path(raw).expanduser().resolve()
+            src = _as_path(raw).expanduser()
+            if not src.is_absolute() and global_root is not None:
+                # Typora sometimes gives relative paths; allow a user-supplied root.
+                alt = (global_root / src).expanduser()
+                if alt.exists():
+                    src = alt
+            src = src.resolve()
             if not src.is_file():
                 outputs.append(raw)
                 continue
@@ -155,12 +210,14 @@ def main(argv: list[str]) -> int:
 
             # Copy first (never overwrite existing); then try deleting the source.
             if not dst.exists():
-                copy2(src, dst)
+                if not args.dry_run:
+                    copy2(src, dst)
 
             outputs.append(dst.resolve().as_uri())
 
             try:
-                src.unlink()
+                if not args.dry_run:
+                    src.unlink()
             except Exception as exc:
                 _append_delete_failure(delete_fail_log, src)
         except Exception:
