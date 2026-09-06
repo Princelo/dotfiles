@@ -31,11 +31,11 @@ export LC_ALL="en_US.UTF-8"
 export EDITOR='nvim'
 alias proxy="export https_proxy=http://127.0.0.1:$PROXY_PORT;export http_proxy=http://127.0.0.1:$PROXY_PORT;export all_proxy=socks5://127.0.0.1:$PROXY_PORT"
 alias unproxy='unset https_proxy;unset http_proxy;unset all_proxy'
-alias ts="python3 $HOME/Tools/ts.py"
-alias urlenc="python3 $HOME/Tools/urlenc.py"
-alias urldec="python3 $HOME/Tools/urldec.py"
-alias rmmd="python3 $HOME/.dotfiles/Tools/md_delete_trash_images.py"
-alias mdimg="python3 $HOME/.dotfiles/Tools/md_upload_images_rewrite.py"
+alias ts="python3 $HOME/.dotfiles/scripts/ts.py"
+alias urlenc="python3 $HOME/.dotfiles/scripts/urlenc.py"
+alias urldec="python3 $HOME/.dotfiles/scripts/urldec.py"
+alias rmmd="python3 $HOME/.dotfiles/scripts/md_delete_trash_images.py"
+alias mdimg="python3 $HOME/.dotfiles/scripts/md_upload_images_rewrite.py"
 alias vi='nvim -u ~/.vimrc --noplugin'
 alias yz='yazi'
 alias vim="nvim"

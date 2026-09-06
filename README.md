@@ -14,7 +14,7 @@ Personal dotfiles and small CLI helpers.
   - Ghostty config in `.config/ghostty/`
 - Misc app config:
   - `mpv` config in `.config/mpv/`
-- Utilities in `Tools/` (mostly Python scripts)
+- Utilities in `scripts/` (mostly Python scripts)
 - Neovim plugins vendored as git submodules under `.local/share/nvim/site/pack/plugins/`
 
 ## Quick start
@@ -44,8 +44,6 @@ ln -sfn ~/.dotfiles/.config/nvim ~/.config/nvim
 ln -sfn ~/.dotfiles/.config/tmux ~/.config/tmux
 ln -sfn ~/.dotfiles/.config/ghostty ~/.config/ghostty
 ln -sfn ~/.dotfiles/.config/mpv ~/.config/mpv
-
-ln -sfn ~/.dotfiles/Tools ~/Tools
 ```
 
 ## Notes
@@ -68,9 +66,9 @@ ln -sfn ~/.dotfiles/Tools ~/Tools
 - Some aliases in `.zshrc` assume tools are installed (examples: `fzf`, `jq`, `yazi`, `zoxide`).
 - Safety: `rm` is aliased to a warning; use `/bin/rm` if you really mean it.
 
-## Tools
+## Scripts
 
-See `Tools/` for helper scripts. A few are wired up in `.zshrc`:
+See `scripts/` for helper scripts. A few are wired up in `.zshrc`:
 
 - `rmmd`: delete unreferenced “trash” images from a Markdown note
 - `mdimg`: rewrite/upload images for Markdown notes
